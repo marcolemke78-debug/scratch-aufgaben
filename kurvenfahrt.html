@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kurvenfahrt · Scratch-Anleitung</title>
+<style>
+  /* ============================================================
+     SCRATCH-ANLEITUNG: moderne Seite (A4-Druck + iPad)
+     Stil "Clean Cards". Druck: Browser -> Cmd/Strg+P -> PDF.
+     Im Druckdialog "Kopf- und Fußzeilen" ausschalten.
+     ============================================================ */
+
+  @page { size: A4; margin: 12mm 13mm; }
+  * { box-sizing: border-box; }
+
+  :root {
+    /* Scratch-3-Kategoriefarben */
+    --c-events:  #f5b400;  /* Ereignisse  (gelb-gold) */
+    --c-control: #ffab19;  /* Steuerung   (orange-gold)*/
+    --c-motion:  #4c97ff;  /* Bewegung    (blau)      */
+    --c-looks:   #9966ff;  /* Aussehen    (lila)      */
+    --c-sensing: #5cb1d6;  /* Fühlen      (hellblau)  */
+    --c-sound:     #cf63cf; /* Klang      (magenta)   */
+    --c-operators: #59c059; /* Operatoren (grün)      */
+    --c-variables: #ff8c1a; /* Variablen  (orange-rot)*/
+    --c-pen:       #0fbd8c; /* Stift      (türkis)    */
+    --ink: #1f2430;        /* Haupttext  */
+    --muted: #5b6472;      /* Nebentext  */
+    --line: #e3e7ee;       /* Trennlinien */
+    --accent: #e8482b;     /* Akzentfarbe (Marke) */
+  }
+
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: "Helvetica Neue", "Segoe UI", Arial, sans-serif;
+    color: var(--ink);
+    background: #eef1f6;            /* nur Bildschirm-Vorschau */
+    font-size: 10.5pt;
+    line-height: 1.4;
+    -webkit-print-color-adjust: exact;   /* Farben mitdrucken */
+    print-color-adjust: exact;
+  }
+
+  /* Eine "Seite" als weißes Blatt. Bildschirm: responsiv (iPad), Druck: A4. */
+  .sheet {
+    width: 100%;
+    max-width: 210mm;
+    margin: 8mm auto;
+    padding: 14mm 13mm;
+    background: #fff;
+    box-shadow: 0 4px 22px rgba(20,30,60,.13);
+  }
+  @media screen and (max-width: 520px) {  /* enge Tablets/Handys: weniger Rand */
+    .sheet { padding: 7mm 6mm; }
+  }
+
+  /* ---------- Kopf ---------- */
+  .kopf {
+    display: flex; align-items: center; gap: 14px;
+    border-bottom: 3px solid var(--accent);
+    padding-bottom: 9px; margin-bottom: 14px;
+  }
+  .kopf .apple { font-size: 30pt; line-height: 1; }
+  .kopf h1 {
+    font-size: 25pt; margin: 0; letter-spacing: .5px;
+    font-weight: 800; color: var(--ink);
+  }
+  .kopf .sub { font-size: 11pt; color: var(--muted); margin: 2px 0 0; font-weight: 600; }
+  .kopf .pill {
+    margin-left: auto; font-size: 8.5pt; font-weight: 700; color: #fff;
+    background: var(--accent); padding: 4px 11px; border-radius: 999px; white-space: nowrap;
+  }
+
+  /* ---------- Start-Leiste: QR-Code + Scratch-Button ---------- */
+  .startbar {
+    display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+    background: #f7f9fc; border: 1px solid var(--line); border-radius: 12px;
+    padding: 11px 14px; margin-bottom: 14px;
+  }
+  .startbar .qr {
+    flex: none; width: 92px; height: 92px;
+    background: #fff; border-radius: 8px; padding: 4px;
+    box-shadow: inset 0 0 0 1px var(--line);
+  }
+  .startbar .qr svg, .startbar .qr img { width: 100%; height: 100%; display: block; }
+  .startbar .qr-text { flex: 1; min-width: 150px; }
+  .startbar .qr-text b { font-size: 10.5pt; }
+  .startbar .qr-text p { margin: 3px 0 0; font-size: 9pt; color: var(--muted); }
+  .scratch-btn {
+    flex: none; display: inline-flex; align-items: center; gap: 8px; min-height: 44px;
+    background: #f78c1b; color: #fff; text-decoration: none; font-weight: 800;
+    font-size: 11pt; padding: 12px 18px; border-radius: 10px;
+  }
+  .scratch-btn .play { font-size: 12pt; }
+
+  /* ---------- Spielziel + Legende nebeneinander ---------- */
+  .top-row { display: grid; grid-template-columns: 1.55fr 1fr; gap: 12px; margin-bottom: 14px; }
+
+  .ziel {
+    background: #fff7f5; border: 1px solid #f6d2c8; border-left: 5px solid var(--accent);
+    border-radius: 10px; padding: 10px 13px;
+  }
+  .ziel h3 { margin: 0 0 4px; font-size: 11pt; color: var(--accent); }
+  .ziel p { margin: 0; font-size: 9.7pt; color: #3c4250; }
+
+  .legende {
+    background: #f7f9fc; border: 1px solid var(--line);
+    border-radius: 10px; padding: 10px 12px;
+  }
+  .legende h3 { margin: 0 0 6px; font-size: 9.5pt; color: var(--muted); text-transform: uppercase; letter-spacing: .6px; }
+  .legende ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+  .legende li { display: flex; align-items: center; gap: 7px; font-size: 9pt; }
+  .legende .swatch { width: 14px; height: 14px; border-radius: 4px; flex: none; }
+
+  /* ---------- Schritt-Karten ---------- */
+  .card {
+    border: 1px solid var(--line); border-radius: 12px;
+    padding: 12px 14px 13px; margin-bottom: 12px;
+    background: #fff; break-inside: avoid;
+  }
+  .card-head { display: flex; align-items: center; gap: 10px; margin-bottom: 9px; }
+  .badge {
+    flex: none; width: 30px; height: 30px; border-radius: 9px;
+    background: var(--ink); color: #fff; font-weight: 800; font-size: 14pt;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .card-head h2 { margin: 0; font-size: 13pt; font-weight: 750; }
+
+  .two-col { display: grid; grid-template-columns: auto 1fr; gap: 16px; align-items: start; }
+  .col-text p { margin: 0 0 7px; font-size: 9.8pt; }
+  .col-text p:last-child { margin-bottom: 0; }
+  .note {
+    font-size: 8.8pt; color: var(--muted); background: #f7f9fc;
+    border-radius: 7px; padding: 6px 9px; margin-top: 3px;
+  }
+  .note b { color: #3c4250; }
+
+  /* ============ SCRATCH-BLÖCKE (selbst gebaut) ============ */
+  .script { display: inline-block; min-width: 215px; }
+
+  .blk {
+    position: relative; display: block;
+    padding: 7px 11px; margin-bottom: 2px;
+    border-radius: 5px; font-size: 9.3pt; font-weight: 700;
+    line-height: 1.25; color: #fff;
+  }
+  /* Kategoriefarben + Kontrast: warme Töne -> dunkler Text */
+  .blk-events  { background: var(--c-events);  color: #2c2200; }
+  .blk-control { background: var(--c-control); color: #3a2200; }
+  .blk-motion  { background: var(--c-motion);  color: #fff; }
+  .blk-looks   { background: var(--c-looks);   color: #fff; }
+  .blk-sound     { background: var(--c-sound);     color: #fff; }
+  .blk-operators { background: var(--c-operators); color: #fff; }
+  .blk-variables { background: var(--c-variables); color: #fff; }
+  .blk-pen       { background: var(--c-pen);       color: #fff; }
+
+  /* Hut-Block: oben abgerundete Kuppe */
+  .blk-hat { border-radius: 13px 13px 5px 5px; padding-top: 9px; }
+
+  /* C-Block (wiederhole / falls): umschließende Klammer */
+  .blk-c { padding: 0; margin-bottom: 2px; background: none; }
+  .c-head, .c-foot { border-radius: 5px; padding: 7px 11px; font-size: 9.3pt; font-weight: 700; }
+  .blk-c.cat-control > .c-head, .blk-c.cat-control > .c-foot { background: var(--c-control); color: #3a2200; }
+  .c-foot { height: 9px; padding: 0; border-radius: 0 0 6px 6px; }
+  .c-body {
+    margin-left: 11px; padding: 5px 0 5px 9px; margin-bottom: 2px;
+    border-left: 11px solid var(--c-control);   /* linker Arm der Klammer */
+  }
+  .c-head { border-radius: 5px 5px 5px 0; margin-bottom: 2px; }
+
+  /* Sechseckige Bedingung (Boolean) */
+  .bool {
+    display: inline-block; background: var(--c-sensing); color: #08384a;
+    padding: 3px 16px; margin: 0 2px; font-size: 8.8pt; font-weight: 700;
+    clip-path: polygon(10px 0, calc(100% - 10px) 0, 100% 50%, calc(100% - 10px) 100%, 10px 100%, 0 50%);
+  }
+
+  /* Eingabefelder im Block */
+  .dropdown, .numfield {
+    display: inline-block; background: rgba(255,255,255,.9); color: #1f2430;
+    border-radius: 999px; padding: 1px 9px; font-weight: 700; font-size: 8.8pt;
+    margin: 0 1px; box-shadow: inset 0 0 0 1px rgba(0,0,0,.12);
+  }
+  .numfield { padding: 1px 8px; }
+  .flag { color: #3aa45b; font-size: 11pt; vertical-align: -1px; }
+  /* Farbfeld im "wird Farbe ... berührt?"-Block */
+  .colorchip { display: inline-block; width: 13px; height: 13px; border-radius: 3px;
+    vertical-align: -2px; border: 1px solid rgba(0,0,0,.3); margin: 0 2px; }
+
+  /* "Figur wählen"-Button-Nachbau (Schritt 3) */
+  .figbtn {
+    flex: none; position: relative; width: 46px; height: 46px; border-radius: 50%;
+    background: var(--c-looks); display: flex; align-items: center; justify-content: center;
+    font-size: 20pt; color: #fff;
+  }
+  .figbtn .plus {
+    position: absolute; right: -4px; bottom: -4px; width: 20px; height: 20px; border-radius: 50%;
+    background: #4c97ff; color: #fff; font-size: 12pt; font-weight: 800;
+    display: flex; align-items: center; justify-content: center; border: 2px solid #fff;
+  }
+
+  /* Mini-Menü-Nachbau (Schritt 6: Duplizieren) */
+  .menu {
+    flex: none; width: 116px; border: 1px solid #d3d8e2; border-radius: 8px; overflow: hidden;
+    font-size: 8.6pt; background: #fff; box-shadow: 0 2px 8px rgba(20,30,60,.12);
+  }
+  .menu div { padding: 5px 9px; border-bottom: 1px solid #eef1f6; color: #3c4250; }
+  .menu div:last-child { border-bottom: none; }
+  .menu .hl { background: #4c97ff; color: #fff; font-weight: 700; }
+
+  .green-flag-ref { color: #3aa45b; font-weight: 800; }
+
+  /* ---------- Fuß ---------- */
+  .fuss {
+    margin-top: 12px; border-top: 1px solid var(--line); padding-top: 8px;
+    font-size: 8.5pt; color: var(--muted); display: flex; justify-content: space-between; gap: 10px;
+  }
+
+  /* ---------- Druck ---------- */
+  @media print {
+    body { background: #fff; }
+    .sheet { width: auto; margin: 0; padding: 0; box-shadow: none; }
+    .pagebreak { break-before: page; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Scratch-Anleitung "Kurvenfahrt" - Bloecke selbst aus dem CSS-Baukasten gebaut. -->
+
+<!-- ============================ SEITE 1 ============================ -->
+<div class="sheet">
+
+  <header class="kopf">
+    <span class="apple">🏎️</span>
+    <div>
+      <h1>KURVENFAHRT</h1>
+      <p class="sub">Steuere dein Rennauto durch die Kurven</p>
+    </div>
+    <span class="pill">Scratch · Spiel 4</span>
+  </header>
+
+  <!-- Start-Leiste: QR (per qr_einbetten.py gefuellt) + Scratch-Button. -->
+  <div class="startbar">
+    <div class="qr"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 41 41" class="segno"><path class="qrline" stroke="#1f2430" d="M2 2.5h7m3 0h4m1 0h2m1 0h2m1 0h1m4 0h1m3 0h7m-37 1h1m5 0h1m1 0h2m2 0h2m2 0h2m1 0h1m2 0h1m1 0h1m1 0h1m3 0h1m5 0h1m-37 1h1m1 0h3m1 0h1m1 0h1m2 0h1m1 0h2m1 0h1m1 0h5m1 0h1m1 0h1m1 0h1m1 0h1m1 0h3m1 0h1m-37 1h1m1 0h3m1 0h1m1 0h1m7 0h2m1 0h3m1 0h1m1 0h1m2 0h1m1 0h1m1 0h3m1 0h1m-37 1h1m1 0h3m1 0h1m2 0h1m1 0h1m1 0h2m1 0h1m1 0h2m1 0h1m1 0h1m4 0h1m1 0h1m1 0h3m1 0h1m-37 1h1m5 0h1m2 0h3m1 0h1m4 0h1m3 0h1m1 0h1m1 0h1m1 0h1m1 0h1m5 0h1m-37 1h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7m-29 1h1m3 0h1m1 0h3m2 0h1m3 0h2m1 0h1m1 0h1m-29 1h1m5 0h1m1 0h3m1 0h3m3 0h1m1 0h1m1 0h1m1 0h7m2 0h3m-33 1h2m2 0h3m3 0h1m3 0h1m2 0h1m1 0h2m1 0h3m3 0h3m1 0h1m-35 1h1m1 0h1m2 0h1m2 0h1m1 0h3m4 0h1m1 0h1m1 0h1m1 0h2m1 0h1m1 0h1m2 0h1m2 0h2m-37 1h3m1 0h2m1 0h3m1 0h1m3 0h2m5 0h2m2 0h2m1 0h2m2 0h1m2 0h1m-37 1h1m1 0h6m1 0h1m2 0h3m4 0h2m1 0h1m1 0h1m2 0h2m1 0h2m1 0h1m2 0h1m-37 1h1m6 0h3m2 0h1m1 0h8m1 0h1m1 0h1m1 0h2m2 0h1m1 0h1m-34 1h1m2 0h2m1 0h1m2 0h1m1 0h1m1 0h1m1 0h3m2 0h3m2 0h3m1 0h5m2 0h1m-34 1h1m4 0h1m3 0h1m1 0h1m1 0h3m7 0h1m2 0h3m1 0h2m1 0h1m-37 1h1m3 0h3m1 0h2m3 0h1m1 0h2m5 0h1m1 0h3m1 0h3m1 0h1m1 0h1m-33 1h3m2 0h7m3 0h2m1 0h2m1 0h2m2 0h2m2 0h1m3 0h1m-36 1h2m3 0h2m3 0h1m4 0h1m4 0h1m2 0h3m1 0h1m1 0h2m1 0h1m1 0h1m1 0h1m-36 1h3m3 0h3m1 0h1m1 0h2m4 0h2m5 0h1m1 0h3m2 0h1m2 0h1m-31 1h2m2 0h1m2 0h1m1 0h1m1 0h4m1 0h1m1 0h2m1 0h1m1 0h2m1 0h1m1 0h1m-33 1h3m3 0h5m2 0h1m2 0h2m1 0h3m3 0h1m1 0h1m2 0h1m1 0h1m-34 1h1m2 0h1m1 0h1m1 0h2m1 0h2m2 0h1m2 0h1m2 0h2m1 0h6m1 0h3m1 0h2m-36 1h2m2 0h1m1 0h3m3 0h1m1 0h1m11 0h2m2 0h3m1 0h1m-36 1h2m4 0h2m2 0h1m1 0h2m1 0h4m2 0h3m5 0h3m3 0h2m-37 1h2m1 0h1m4 0h3m1 0h1m3 0h2m5 0h1m3 0h2m2 0h1m1 0h1m-34 1h1m1 0h1m2 0h4m2 0h4m2 0h1m2 0h1m1 0h1m1 0h5m1 0h3m2 0h2m-37 1h1m6 0h2m4 0h3m4 0h1m2 0h2m2 0h2m2 0h4m-35 1h1m3 0h1m1 0h6m1 0h1m2 0h2m4 0h1m1 0h2m2 0h9m-29 1h6m1 0h3m1 0h2m2 0h1m2 0h1m1 0h1m3 0h1m-33 1h7m2 0h5m1 0h1m3 0h5m1 0h2m1 0h1m1 0h1m1 0h1m3 0h1m-37 1h1m5 0h1m4 0h1m3 0h1m1 0h2m1 0h1m5 0h3m3 0h1m3 0h1m-37 1h1m1 0h3m1 0h1m3 0h1m1 0h1m2 0h2m4 0h1m1 0h1m1 0h8m1 0h3m-37 1h1m1 0h3m1 0h1m2 0h1m1 0h3m2 0h1m1 0h1m2 0h3m1 0h3m1 0h2m2 0h2m1 0h1m-37 1h1m1 0h3m1 0h1m3 0h2m2 0h6m1 0h1m2 0h1m2 0h1m5 0h4m-37 1h1m5 0h1m5 0h1m1 0h1m4 0h2m1 0h1m1 0h1m3 0h2m2 0h2m2 0h1m-37 1h7m1 0h4m1 0h4m7 0h1m1 0h1m1 0h1m2 0h1m1 0h1m2 0h1"/></svg></div>
+    <div class="qr-text">
+      <b>📱 Aufs iPad holen</b>
+      <p>Scanne den QR-Code mit der iPad-Kamera, dann hast du diese Aufgabe direkt vor dir. Tippe dann auf den orangen Knopf, um Scratch zu öffnen.</p>
+    </div>
+    <a class="scratch-btn" href="https://scratch.mit.edu/projects/editor/" target="_blank" rel="noopener"><span class="play">▶</span> Scratch öffnen</a>
+  </div>
+
+  <div class="top-row">
+    <div class="ziel">
+      <h3>🎯 Darum geht es</h3>
+      <p>Du baust ein Rennauto und eine Strecke. Mit den <b>Pfeiltasten</b> drehst du das Auto
+      nach links und rechts, mit der <b>Leertaste</b> gibst du Gas. Berührt das Auto das
+      <b>grüne Gras</b> neben der Strecke, wird es gestoppt. Bleib also in der Kurve!</p>
+    </div>
+    <div class="legende">
+      <h3>Block-Farben</h3>
+      <ul>
+        <li><span class="swatch" style="background:var(--c-events)"></span> Ereignisse</li>
+        <li><span class="swatch" style="background:var(--c-control)"></span> Steuerung</li>
+        <li><span class="swatch" style="background:var(--c-motion)"></span> Bewegung</li>
+        <li><span class="swatch" style="background:var(--c-looks)"></span> Aussehen</li>
+        <li><span class="swatch" style="background:var(--c-sensing)"></span> Fühlen</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Schritt 1 -->
+  <section class="card">
+    <div class="card-head"><span class="badge">1</span><h2>Die Katze löschen</h2></div>
+    <div class="two-col">
+      <div class="menu">
+        <div>Duplizieren</div>
+        <div>Exportieren</div>
+        <div class="hl">Löschen</div>
+      </div>
+      <div class="col-text">
+        <p>Öffne eine <b>neue</b> Scratch-Datei. Die Katze brauchst du diesmal nicht.</p>
+        <p>Klicke mit <b>Rechtsklick</b> auf <b>Figur1</b> im Figuren-Bereich und wähle
+        im Menü <b>Löschen</b>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Schritt 2 -->
+  <section class="card">
+    <div class="card-head"><span class="badge">2</span><h2>Die Auto-Figur selbst malen</h2></div>
+    <div class="col-text">
+      <p>Jetzt erstellst du dein eigenes Auto. Halte den Zeiger unten rechts über
+      <b>Figur wählen</b>, aber klicke noch nicht. Klicke dann im Menü auf den <b>Pinsel</b>
+      (<b>Malen</b>).</p>
+      <p>Klicke im Malbereich auf <b>In Rastergrafik umwandeln</b>.</p>
+      <p class="note"><b>Farbe einstellen:</b> Klicke auf das Feld <b>Füllfarbe</b> und wähle ein
+      kräftiges <b>Rot</b> aus. So wird das Auto später rot.</p>
+    </div>
+  </section>
+
+  <!-- Schritt 3 -->
+  <section class="card">
+    <div class="card-head"><span class="badge">3</span><h2>Das Auto aus Rechtecken bauen</h2></div>
+    <div class="col-text">
+      <p>Male <b>rote und graue Rechtecke</b>. Nimm sehr große Rechtecke, die den Malbereich
+      fast ganz ausfüllen. Keine Sorge: später verkleinern wir das Auto.</p>
+      <p>So entsteht das Auto:</p>
+      <p class="note">• Ein großes <b>rotes</b> Rechteck wird die <b>Karosserie</b>.<br>
+      • Die <b>Fenster</b> baust du aus <b>grauen</b> Rechtecken.<br>
+      • Ein weiteres <b>rotes</b> Rechteck wird das <b>Dach</b>.</p>
+    </div>
+  </section>
+
+  <!-- Schritt 4 -->
+  <section class="card">
+    <div class="card-head"><span class="badge">4</span><h2>Vier Linien ziehen</h2></div>
+    <div class="col-text">
+      <p>Klicke auf das <b>Linie-Werkzeug</b> und male <b>vier Linien</b> ans Auto
+      (zum Beispiel als Fensterrahmen oder Radkästen).</p>
+    </div>
+  </section>
+
+</div><!-- /Seite 1 -->
+
+<div class="pagebreak"></div>
+
+<!-- ============================ SEITE 2 ============================ -->
+<div class="sheet">
+
+  <!-- Schritt 5 -->
+  <section class="card">
+    <div class="card-head"><span class="badge">5</span><h2>Ecken abrunden</h2></div>
+    <div class="col-text">
+      <p>Runde die <b>Ecken</b> deines Autos mit dem <b>Radiergummi</b> ab. So sieht es
+      gleich viel runder und echter aus.</p>
+    </div>
+  </section>
+
+  <!-- Schritt 6 -->
+  <section class="card">
+    <div class="card-head"><span class="badge">6</span><h2>Code für das Auto: Lenken</h2></div>
+    <div class="two-col">
+      <div class="col-blocks">
+        <div class="script">
+          <div class="blk blk-events blk-hat">wenn <span class="flag">⚑</span> angeklickt</div>
+          <div class="blk blk-motion">gehe zu x: <span class="numfield">-11</span> y: <span class="numfield">121</span></div>
+          <div class="blk blk-motion">setze Richtung auf <span class="numfield">90</span></div>
+          <div class="blk blk-looks">setze Größe auf <span class="numfield">6</span> %</div>
+          <div class="blk-c cat-control">
+            <div class="c-head">wiederhole fortlaufend</div>
+            <div class="c-body">
+              <div class="blk-c cat-control">
+                <div class="c-head">falls <span class="bool">Taste <span class="dropdown">Pfeil nach links ▾</span> gedrückt?</span> , dann</div>
+                <div class="c-body">
+                  <div class="blk blk-motion">drehe dich <span style="font-size:14pt; vertical-align:-2px; font-weight:900;">⟲</span> um <span class="numfield">5</span> Grad</div>
+                </div>
+                <div class="c-foot"></div>
+              </div>
+              <div class="blk-c cat-control">
+                <div class="c-head">falls <span class="bool">Taste <span class="dropdown">Pfeil nach rechts ▾</span> gedrückt?</span> , dann</div>
+                <div class="c-body">
+                  <div class="blk blk-motion">drehe dich <span style="font-size:14pt; vertical-align:-2px; font-weight:900;">⟳</span> um <span class="numfield">5</span> Grad</div>
+                </div>
+                <div class="c-foot"></div>
+              </div>
+            </div>
+            <div class="c-foot"></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-text">
+        <p>Klicke auf das <b>Auto</b> im Figuren-Bereich und dann auf den Reiter <b>Skripte</b>.
+        Baue diesen Code:</p>
+        <p>Beim Klick auf die <span class="green-flag-ref">grüne Flagge ⚑</span> stellt sich das Auto
+        an den Start (<b>x -11, y 121</b>), schaut nach rechts (<b>Richtung 90</b>) und wird auf
+        <b>6 %</b> verkleinert. Dann prüft es <b>endlos</b>, welche Pfeiltaste du drückst, und dreht
+        sich um <b>5 Grad</b>: <b>⟲</b> nach links, <b>⟳</b> nach rechts.</p>
+        <p class="note"><b>Tipp zum Startpunkt:</b> Bewege den Mauszeiger auf der Bühne dorthin,
+        wo das Auto starten soll. Unten an der Bühne werden die <b>x-</b> und <b>y-Werte</b> dieses Punktes
+        angezeigt. Diese Zahlen trägst du in den Block <b>gehe zu x: y:</b> ein. Liegt dein Auto nicht
+        auf der Strecke, passe x und y an.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Schritt 7 -->
+  <section class="card">
+    <div class="card-head"><span class="badge">7</span><h2>Zwischendurch testen</h2></div>
+    <div class="col-text">
+      <p>Klicke auf die <span class="green-flag-ref">grüne Flagge ⚑</span>. Das Auto wird jetzt
+      kleiner und dreht sich beim Drücken der Pfeiltasten nach links und rechts. Aber es
+      <b>fährt noch nicht</b>. Das kommt gleich.</p>
+      <p class="note"><b>Achtung:</b> Deine Strecke muss später <b>breit genug</b> für das Auto sein.</p>
+    </div>
+  </section>
+
+  <!-- Schritt 8 -->
+  <section class="card">
+    <div class="card-head"><span class="badge">8</span><h2>Die Rennstrecke malen</h2></div>
+    <div class="col-text">
+      <p>Klicke auf den Button <b>Bühne</b> neben dem Figuren-Bereich. Klicke dann oben auf den
+      Reiter <b>Bühnenbilder</b> und auf <b>In Rastergrafik umwandeln</b>.</p>
+      <p>Male mit dem <b>Rechteck-Werkzeug</b> eine einfache Rennstrecke: eine <b>graue Bahn</b> auf
+      <b>grünem Gras</b>, zum Beispiel als Oval oder Schleife. Die graue Bahn ist die Straße,
+      das Grün ist das Gras daneben.</p>
+      <p class="note"><b>Wichtig:</b> Lass die Straße überall <b>breit genug</b>, damit dein Auto
+      gut durch die Kurven passt.</p>
+    </div>
+  </section>
+
+</div><!-- /Seite 2 -->
+
+<div class="pagebreak"></div>
+
+<!-- ============================ SEITE 3 ============================ -->
+<div class="sheet">
+
+  <!-- Schritt 9 -->
+  <section class="card">
+    <div class="card-head"><span class="badge">9</span><h2>Code für das Auto: Gas geben</h2></div>
+    <div class="two-col">
+      <div class="col-blocks">
+        <div class="script">
+          <div class="blk blk-events blk-hat">wenn Taste <span class="dropdown">Leertaste ▾</span> gedrückt</div>
+          <div class="blk-c cat-control">
+            <div class="c-head">wiederhole bis <span class="bool">wird Farbe <span class="colorchip" style="background:#3a9d4a"></span> berührt?</span></div>
+            <div class="c-body">
+              <div class="blk blk-motion">gehe <span class="numfield">3</span> er-Schritt</div>
+            </div>
+            <div class="c-foot"></div>
+          </div>
+          <div class="blk blk-motion">gehe <span class="numfield">-3</span> er-Schritt</div>
+        </div>
+      </div>
+      <div class="col-text">
+        <p>Klicke wieder auf das <b>Auto</b> und dann auf <b>Skripte</b>. Baue diesen Code dazu:</p>
+        <p>Drückst du die <b>Leertaste</b>, fährt das Auto <b>vorwärts</b> (gehe 3 er-Schritt),
+        und zwar so lange, <b>bis</b> es <b>grünes Gras berührt</b>. Berührt es das Gras (ein Unfall!),
+        endet die Schleife und der letzte Block <b>gehe -3 er-Schritt</b> schiebt das Auto
+        <b>3 Schritte zurück</b> auf die Straße.</p>
+        <p class="note"><b>Grasfarbe einstellen:</b> Tippe im Block <b>wird Farbe … berührt?</b> auf das
+        kleine Farbfeld und wähle mit der Pipette genau das <b>Grün deines Grases</b>. Nur so merkt
+        das Auto, wann es von der Strecke abkommt.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Schritt 10 -->
+  <section class="card">
+    <div class="card-head"><span class="badge">10</span><h2>Losfahren!</h2></div>
+    <div class="col-text">
+      <p>Klicke auf die <span class="green-flag-ref">grüne Flagge ⚑</span> und teste dein Spiel.
+      Lenke mit den Pfeiltasten, gib mit der Leertaste Gas. 🏁</p>
+      <p class="note">Bewegt sich das Auto beim Drücken der Leertaste nicht? Dann ziehe es so, dass
+      es <b>ganz auf der Straße</b> steht und <b>kein Gras berührt</b>.</p>
+    </div>
+  </section>
+
+  <!-- Zusatzaufgaben -->
+  <section class="card" style="background:#f1faf3; border-color:#cbe7d4;">
+    <div class="card-head"><span class="badge" style="background:#2e9e57;">+</span><h2>Zusatzaufgaben</h2></div>
+    <div class="col-text">
+      <p>Schaffst du das Grundspiel? Dann probiere diese Erweiterungen:</p>
+      <p class="note" style="background:#e7f5ec;">
+      • Male <b>Zuschauer, Bäume oder Muster</b> in den Hintergrund. Achte darauf, dass sie das
+      Spiel nicht stören.<br>
+      • Füge einen <b>Klangeffekt</b> (Gruppe <b>Klang</b>) ein, der spielt, sobald das Auto von der
+      Strecke abkommt. Tipp: unter den Block <b>gehe -3 er-Schritt</b> aus Schritt 9 setzen.<br>
+      • Baue einen <b>Bremsen-Button</b>, mit dem du das Auto langsamer machst.<br>
+      • Bringe eine <b>Ölspur</b> ins Spiel: eine Schleife prüft, ob das Auto die Öl-Farbe berührt.
+      Lass es dann ins Schleudern kommen.<br>
+      • Mache aus dem Leertaste-Code einen <b>Beschleunigen-Button</b> auf einer anderen Taste.<br>
+      • Baue ein <b>zweites Auto</b> mit anderen Tasten ein, dann könnt ihr zu zweit um die Wette fahren.</p>
+    </div>
+  </section>
+
+  <!-- Experimente -->
+  <section class="card" style="background:#f7f1fb; border-color:#e0d2ee;">
+    <div class="card-head"><span class="badge" style="background:#7b4fb5;">?</span><h2>Experimente</h2></div>
+    <div class="col-text">
+      <p>Forsche und finde heraus, was passiert:</p>
+      <p class="note" style="background:#f0e7f7;">
+      • Ändere in <b>Schritt 6</b> den <b>Winkel</b>, um den sich das Auto dreht. Was passiert bei
+      <b>1 Grad</b>, was bei <b>15 Grad</b>?<br>
+      • Ändere in <b>Schritt 9</b> bei <b>gehe 3 er-Schritt</b> die Zahl auf <b>1</b> oder <b>5</b>.
+      Wie verändert sich die <b>Geschwindigkeit</b>? Vielleicht musst du auch <b>gehe -3 er-Schritt</b> anpassen.<br>
+      • Ändere die <b>Grasfarbe</b>. Was musst du tun, damit das neu gefärbte Gras das Auto trotzdem stoppt?<br>
+      • Welche <b>Größe</b> ist für das Auto am besten (Schritt 6)? Sind <b>6 %</b> zu wenig? Wie musst du
+      die Strecke ändern, wenn du das Auto größer machst?</p>
+    </div>
+  </section>
+
+  <footer class="fuss">
+    <span>🏎️ Kurvenfahrt · Scratch-Spiel 4</span>
+    <span>Drucken: Browser → Cmd/Strg + P → "Kopf- und Fußzeilen" ausschalten</span>
+  </footer>
+
+</div><!-- /Seite 3 -->
+
+</body>
+</html>
