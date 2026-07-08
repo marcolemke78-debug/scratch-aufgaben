@@ -254,9 +254,9 @@
   <div class="top-row">
     <div class="ziel">
       <h3>🎯 Darum geht es</h3>
-      <p>Du baust ein Rennauto und eine Strecke. Mit den <b>Pfeiltasten</b> drehst du das Auto
-      nach links und rechts, mit der <b>Leertaste</b> gibst du Gas. Berührt das Auto das
-      <b>grüne Gras</b> neben der Strecke, wird es gestoppt. Bleib also in der Kurve!</p>
+      <p>Du baust ein Rennauto und eine Strecke. Halte den <b>Finger</b> auf die Bühne:
+      Das Auto gibt Gas und lenkt dorthin, wo dein Finger ist. Berührt das Auto das
+      <b>grüne Gras</b> neben der Strecke, wird es zurückgeschoben. Bleib also in der Kurve!</p>
     </div>
     <div class="legende">
       <h3>Block-Farben</h3>
@@ -281,8 +281,8 @@
       </div>
       <div class="col-text">
         <p>Öffne eine <b>neue</b> Scratch-Datei. Die Katze brauchst du diesmal nicht.</p>
-        <p>Klicke mit <b>Rechtsklick</b> auf <b>Figur1</b> im Figuren-Bereich und wähle
-        im Menü <b>Löschen</b>.</p>
+        <p>Halte <b>Figur1</b> im Figuren-Bereich <b>lange gedrückt</b> (am PC: Rechtsklick)
+        und wähle im Menü <b>Löschen</b>.</p>
       </div>
     </div>
   </section>
@@ -291,9 +291,9 @@
   <section class="card">
     <div class="card-head"><span class="badge">2</span><h2>Die Auto-Figur selbst malen</h2></div>
     <div class="col-text">
-      <p>Jetzt erstellst du dein eigenes Auto. Halte den Zeiger unten rechts über
-      <b>Figur wählen</b>, aber klicke noch nicht. Klicke dann im Menü auf den <b>Pinsel</b>
-      (<b>Malen</b>).</p>
+      <p>Jetzt erstellst du dein eigenes Auto. Tippe unten rechts kurz auf <b>Figur wählen</b>,
+      sodass das kleine Menü aufklappt (am PC: mit der Maus darüber zeigen, ohne zu klicken).
+      Tippe dann im Menü auf den <b>Pinsel</b> (<b>Malen</b>).</p>
       <p>Klicke im Malbereich auf <b>In Rastergrafik umwandeln</b>.</p>
       <p class="note"><b>Farbe einstellen:</b> Klicke auf das Feld <b>Füllfarbe</b> und wähle ein
       kräftiges <b>Rot</b> aus. So wird das Auto später rot.</p>
@@ -352,16 +352,9 @@
             <div class="c-head">wiederhole fortlaufend</div>
             <div class="c-body">
               <div class="blk-c cat-control">
-                <div class="c-head">falls <span class="bool">Taste <span class="dropdown">Pfeil nach links ▾</span> gedrückt?</span> , dann</div>
+                <div class="c-head">falls <span class="bool">Maustaste gedrückt?</span> , dann</div>
                 <div class="c-body">
-                  <div class="blk blk-motion">drehe dich <span style="font-size:14pt; vertical-align:-2px; font-weight:900;">⟲</span> um <span class="numfield">5</span> Grad</div>
-                </div>
-                <div class="c-foot"></div>
-              </div>
-              <div class="blk-c cat-control">
-                <div class="c-head">falls <span class="bool">Taste <span class="dropdown">Pfeil nach rechts ▾</span> gedrückt?</span> , dann</div>
-                <div class="c-body">
-                  <div class="blk blk-motion">drehe dich <span style="font-size:14pt; vertical-align:-2px; font-weight:900;">⟳</span> um <span class="numfield">5</span> Grad</div>
+                  <div class="blk blk-motion">drehe dich zu <span class="dropdown">Mauszeiger ▾</span></div>
                 </div>
                 <div class="c-foot"></div>
               </div>
@@ -375,9 +368,10 @@
         Baue diesen Code:</p>
         <p>Beim Klick auf die <span class="green-flag-ref">grüne Flagge ⚑</span> stellt sich das Auto
         an den Start (<b>x -11, y 121</b>), schaut nach rechts (<b>Richtung 90</b>) und wird auf
-        <b>6 %</b> verkleinert. Dann prüft es <b>endlos</b>, welche Pfeiltaste du drückst, und dreht
-        sich um <b>5 Grad</b>: <b>⟲</b> nach links, <b>⟳</b> nach rechts.</p>
-        <p class="note"><b>Tipp zum Startpunkt:</b> Bewege den Mauszeiger auf der Bühne dorthin,
+        <b>6 %</b> verkleinert. Dann prüft es <b>endlos</b>: Liegt dein Finger auf der Bühne
+        (<b>Maustaste gedrückt?</b>, Gruppe <b>Fühlen</b>), dreht sich das Auto zu deinem Finger
+        (<b>Mauszeiger</b>). Am PC hältst du dafür die linke Maustaste gedrückt.</p>
+        <p class="note"><b>Tipp zum Startpunkt:</b> Halte Finger oder Mauszeiger auf die Stelle der Bühne,
         wo das Auto starten soll. Unten an der Bühne werden die <b>x-</b> und <b>y-Werte</b> dieses Punktes
         angezeigt. Diese Zahlen trägst du in den Block <b>gehe zu x: y:</b> ein. Liegt dein Auto nicht
         auf der Strecke, passe x und y an.</p>
@@ -390,7 +384,7 @@
     <div class="card-head"><span class="badge">7</span><h2>Zwischendurch testen</h2></div>
     <div class="col-text">
       <p>Klicke auf die <span class="green-flag-ref">grüne Flagge ⚑</span>. Das Auto wird jetzt
-      kleiner und dreht sich beim Drücken der Pfeiltasten nach links und rechts. Aber es
+      kleiner und dreht sich zu deinem Finger, solange du die Bühne berührst. Aber es
       <b>fährt noch nicht</b>. Das kommt gleich.</p>
       <p class="note"><b>Achtung:</b> Deine Strecke muss später <b>breit genug</b> für das Auto sein.</p>
     </div>
@@ -423,23 +417,42 @@
     <div class="two-col">
       <div class="col-blocks">
         <div class="script">
-          <div class="blk blk-events blk-hat">wenn Taste <span class="dropdown">Leertaste ▾</span> gedrückt</div>
+          <div class="blk blk-events blk-hat">wenn <span class="flag">⚑</span> angeklickt</div>
+          <div class="blk blk-motion">gehe zu x: <span class="numfield">-11</span> y: <span class="numfield">121</span></div>
+          <div class="blk blk-motion">setze Richtung auf <span class="numfield">90</span></div>
+          <div class="blk blk-looks">setze Größe auf <span class="numfield">6</span> %</div>
           <div class="blk-c cat-control">
-            <div class="c-head">wiederhole bis <span class="bool">wird Farbe <span class="colorchip" style="background:#3a9d4a"></span> berührt?</span></div>
+            <div class="c-head">wiederhole fortlaufend</div>
             <div class="c-body">
-              <div class="blk blk-motion">gehe <span class="numfield">3</span> er-Schritt</div>
+              <div class="blk-c cat-control">
+                <div class="c-head">falls <span class="bool">Maustaste gedrückt?</span> , dann</div>
+                <div class="c-body">
+                  <div class="blk blk-motion">drehe dich zu <span class="dropdown">Mauszeiger ▾</span></div>
+                  <div class="blk blk-motion">gehe <span class="numfield">3</span> er-Schritt</div>
+                </div>
+                <div class="c-foot"></div>
+              </div>
+              <div class="blk-c cat-control">
+                <div class="c-head">falls <span class="bool">wird Farbe <span class="colorchip" style="background:#3a9d4a"></span> berührt?</span> , dann</div>
+                <div class="c-body">
+                  <div class="blk blk-motion">gehe <span class="numfield">-3</span> er-Schritt</div>
+                </div>
+                <div class="c-foot"></div>
+              </div>
             </div>
             <div class="c-foot"></div>
           </div>
-          <div class="blk blk-motion">gehe <span class="numfield">-3</span> er-Schritt</div>
         </div>
       </div>
       <div class="col-text">
-        <p>Klicke wieder auf das <b>Auto</b> und dann auf <b>Skripte</b>. Baue diesen Code dazu:</p>
-        <p>Drückst du die <b>Leertaste</b>, fährt das Auto <b>vorwärts</b> (gehe 3 er-Schritt),
-        und zwar so lange, <b>bis</b> es <b>grünes Gras berührt</b>. Berührt es das Gras (ein Unfall!),
-        endet die Schleife und der letzte Block <b>gehe -3 er-Schritt</b> schiebt das Auto
-        <b>3 Schritte zurück</b> auf die Straße.</p>
+        <p>Klicke wieder auf das <b>Auto</b> und dann auf <b>Skripte</b>. Du baust jetzt dein
+        Skript aus Schritt 6 weiter aus, bis es so aussieht wie hier links.</p>
+        <p>Füge im <b>falls Maustaste gedrückt?</b> unter <b>drehe dich zu Mauszeiger</b> den
+        Block <b>gehe 3 er-Schritt</b> ein. Jetzt gibt das Auto Gas, solange dein Finger auf
+        der Bühne liegt: Es fährt immer dorthin, wo dein Finger ist.</p>
+        <p>Baue darunter ein <b>zweites falls … dann</b>: Berührt das Auto das <b>grüne Gras</b>
+        (ein Unfall!), schiebt der Block <b>gehe -3 er-Schritt</b> es sofort zurück auf die
+        Straße. Durchs Gras kommt es so nicht hindurch.</p>
         <p class="note"><b>Grasfarbe einstellen:</b> Tippe im Block <b>wird Farbe … berührt?</b> auf das
         kleine Farbfeld und wähle mit der Pipette genau das <b>Grün deines Grases</b>. Nur so merkt
         das Auto, wann es von der Strecke abkommt.</p>
@@ -452,9 +465,10 @@
     <div class="card-head"><span class="badge">10</span><h2>Losfahren!</h2></div>
     <div class="col-text">
       <p>Klicke auf die <span class="green-flag-ref">grüne Flagge ⚑</span> und teste dein Spiel.
-      Lenke mit den Pfeiltasten, gib mit der Leertaste Gas. 🏁</p>
-      <p class="note">Bewegt sich das Auto beim Drücken der Leertaste nicht? Dann ziehe es so, dass
-      es <b>ganz auf der Straße</b> steht und <b>kein Gras berührt</b>.</p>
+      Halte den Finger auf die Bühne und führe das Auto um die Strecke — bleib dabei immer
+      ein Stück <b>vor</b> dem Auto. 🏁</p>
+      <p class="note">Fährt das Auto nicht los? Prüfe, ob es <b>ganz auf der Straße</b> steht und
+      <b>kein Gras berührt</b>. Passe sonst den Startpunkt (x und y in Schritt 6) an.</p>
     </div>
   </section>
 
@@ -468,11 +482,13 @@
       Spiel nicht stören.<br>
       • Füge einen <b>Klangeffekt</b> (Gruppe <b>Klang</b>) ein, der spielt, sobald das Auto von der
       Strecke abkommt. Tipp: unter den Block <b>gehe -3 er-Schritt</b> aus Schritt 9 setzen.<br>
-      • Baue einen <b>Bremsen-Button</b>, mit dem du das Auto langsamer machst.<br>
+      • Baue eine <b>Bremsen-Figur</b> als Knopf neben die Strecke: Tippst du sie an
+      (<b>wenn diese Figur angeklickt</b>), wird das Auto langsamer.<br>
       • Bringe eine <b>Ölspur</b> ins Spiel: eine Schleife prüft, ob das Auto die Öl-Farbe berührt.
       Lass es dann ins Schleudern kommen.<br>
-      • Mache aus dem Leertaste-Code einen <b>Beschleunigen-Button</b> auf einer anderen Taste.<br>
-      • Baue ein <b>zweites Auto</b> mit anderen Tasten ein, dann könnt ihr zu zweit um die Wette fahren.</p>
+      • Baue genauso einen <b>Turbo-Knopf</b>, der das Auto für kurze Zeit schneller macht.<br>
+      • Baue ein <b>zweites Auto</b> ein, das von allein im Kreis fährt — ein Gegner, dem du
+      ausweichen musst.</p>
     </div>
   </section>
 
@@ -482,8 +498,8 @@
     <div class="col-text">
       <p>Forsche und finde heraus, was passiert:</p>
       <p class="note" style="background:#f0e7f7;">
-      • Ändere in <b>Schritt 6</b> den <b>Winkel</b>, um den sich das Auto dreht. Was passiert bei
-      <b>1 Grad</b>, was bei <b>15 Grad</b>?<br>
+      • Halte den Finger einmal ganz <b>nah am Auto</b> und einmal <b>weit voraus</b>.
+      Wie ändert sich das Lenken? Hast du eine Erklärung dafür?<br>
       • Ändere in <b>Schritt 9</b> bei <b>gehe 3 er-Schritt</b> die Zahl auf <b>1</b> oder <b>5</b>.
       Wie verändert sich die <b>Geschwindigkeit</b>? Vielleicht musst du auch <b>gehe -3 er-Schritt</b> anpassen.<br>
       • Ändere die <b>Grasfarbe</b>. Was musst du tun, damit das neu gefärbte Gras das Auto trotzdem stoppt?<br>

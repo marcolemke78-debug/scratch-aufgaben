@@ -236,7 +236,7 @@
     <span class="apple">🕹️</span>
     <div>
       <h1>IRRGARTEN</h1>
-      <p class="sub">Lenke die Katze mit den Pfeiltasten</p>
+      <p class="sub">Lenke die Katze mit dem Finger</p>
     </div>
     <span class="pill">Scratch · Spiel 3</span>
   </header>
@@ -254,7 +254,8 @@
   <div class="top-row">
     <div class="ziel">
       <h3>🎯 Darum geht es</h3>
-      <p>Du baust einen Irrgarten und steuerst die Katze mit den <b>Pfeiltasten</b> hindurch.
+      <p>Du baust einen Irrgarten und steuerst die Katze mit dem <b>Finger</b> hindurch:
+      Sie läuft immer dorthin, wo du die Bühne berührst.
       Berührt die Katze eine <b>schwarze Wand</b>, wird sie gestoppt und ein Stück zurückgeschickt.
       Schaffst du es durch das ganze Labyrinth?</p>
     </div>
@@ -280,7 +281,7 @@
       <div class="col-text">
         <p>Öffne eine <b>neue</b> Scratch-Datei. Die Katze ist noch zu groß für den Irrgarten.</p>
         <p>Klicke im Figuren-Bereich auf das Feld <b>Größe</b>, ändere die Zahl von <b>100</b>
-        auf <b>40</b> und drücke die <b>Eingabetaste</b>.</p>
+        auf <b>40</b> und tippe danach auf eine freie Stelle neben dem Feld.</p>
       </div>
     </div>
   </section>
@@ -327,56 +328,40 @@
 
   <!-- Schritt 5 -->
   <section class="card">
-    <div class="card-head"><span class="badge">5</span><h2>Code für die Katze: die vier Pfeiltasten</h2></div>
-    <div class="col-text">
-      <p>Klicke im Figuren-Bereich auf <b>Figur1</b> (die Katze) und dann oben auf den Reiter
-      <b>Skripte</b>. Ziehe diese <b>vier Skripte</b> in den Skript-Bereich, für jede Pfeiltaste eines.
-      Den Block <b>wenn Taste … gedrückt</b> findest du in der Gruppe <b>Ereignisse</b>.</p>
+    <div class="card-head"><span class="badge">5</span><h2>Code für die Katze: dem Finger folgen</h2></div>
+    <div class="two-col">
+      <div class="col-blocks">
+        <div class="script">
+          <div class="blk blk-events blk-hat">wenn <span class="flag">⚑</span> angeklickt</div>
+          <div class="blk-c cat-control">
+            <div class="c-head">wiederhole fortlaufend</div>
+            <div class="c-body">
+              <div class="blk-c cat-control">
+                <div class="c-head">falls <span class="bool">Maustaste gedrückt?</span> , dann</div>
+                <div class="c-body">
+                  <div class="blk blk-motion">drehe dich zu <span class="dropdown">Mauszeiger ▾</span></div>
+                  <div class="blk blk-motion">gehe <span class="numfield">4</span> er-Schritt</div>
+                </div>
+                <div class="c-foot"></div>
+              </div>
+            </div>
+            <div class="c-foot"></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-text">
+        <p>Klicke im Figuren-Bereich auf <b>Figur1</b> (die Katze) und dann oben auf den Reiter
+        <b>Skripte</b>. Baue dieses eine Skript. Es lässt die Katze immer dorthin laufen,
+        wo du die Bühne berührst.</p>
+        <p>Du findest die Blöcke hier: <b>wenn ⚑ angeklickt</b> → <b>Ereignisse</b>,
+        <b>wiederhole fortlaufend</b> und <b>falls … dann</b> → <b>Steuerung</b>,
+        <b>Maustaste gedrückt?</b> → <b>Fühlen</b>, die beiden letzten → <b>Bewegung</b>.</p>
+        <p class="note"><b>So steuerst du:</b> Auf dem iPad ist dein <b>Finger</b> der Mauszeiger:
+        Halte den Finger auf die Bühne, und die Katze läuft dorthin. Am PC hältst du stattdessen
+        die <b>linke Maustaste</b> gedrückt. Tipp: Bleib mit dem Finger immer ein Stück
+        <b>vor</b> der Katze, dann läuft sie ruhig.</p>
+      </div>
     </div>
-
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px 22px;margin:10px 0 4px;">
-
-      <div>
-        <p style="margin:0 0 5px;font-size:9pt;font-weight:700;color:#5b6472;">⬆ Nach oben</p>
-        <div class="script">
-          <div class="blk blk-events blk-hat">wenn Taste <span class="dropdown">Pfeil nach oben ▾</span> gedrückt</div>
-          <div class="blk blk-motion">setze Richtung auf <span class="numfield">0</span></div>
-          <div class="blk blk-motion">gehe <span class="numfield">10</span> er-Schritt</div>
-        </div>
-      </div>
-
-      <div>
-        <p style="margin:0 0 5px;font-size:9pt;font-weight:700;color:#5b6472;">⬇ Nach unten</p>
-        <div class="script">
-          <div class="blk blk-events blk-hat">wenn Taste <span class="dropdown">Pfeil nach unten ▾</span> gedrückt</div>
-          <div class="blk blk-motion">setze Richtung auf <span class="numfield">180</span></div>
-          <div class="blk blk-motion">gehe <span class="numfield">10</span> er-Schritt</div>
-        </div>
-      </div>
-
-      <div>
-        <p style="margin:0 0 5px;font-size:9pt;font-weight:700;color:#5b6472;">⬅ Nach links</p>
-        <div class="script">
-          <div class="blk blk-events blk-hat">wenn Taste <span class="dropdown">Pfeil nach links ▾</span> gedrückt</div>
-          <div class="blk blk-motion">setze Richtung auf <span class="numfield">-90</span></div>
-          <div class="blk blk-motion">gehe <span class="numfield">10</span> er-Schritt</div>
-        </div>
-      </div>
-
-      <div>
-        <p style="margin:0 0 5px;font-size:9pt;font-weight:700;color:#5b6472;">➡ Nach rechts</p>
-        <div class="script">
-          <div class="blk blk-events blk-hat">wenn Taste <span class="dropdown">Pfeil nach rechts ▾</span> gedrückt</div>
-          <div class="blk blk-motion">setze Richtung auf <span class="numfield">90</span></div>
-          <div class="blk blk-motion">gehe <span class="numfield">10</span> er-Schritt</div>
-        </div>
-      </div>
-
-    </div>
-
-    <p class="note"><b>Richtung einstellen:</b> Im Block <b>setze Richtung auf</b> tippst du auf das
-    runde Feld und stellst die Gradzahl ein: <b>0</b> = oben, <b>180</b> = unten, <b>-90</b> = links,
-    <b>90</b> = rechts. Die passende Taste wählst du im Aufklappmenü von <b>wenn Taste … gedrückt</b>.</p>
   </section>
 
   <!-- Schritt 6 -->
@@ -384,7 +369,7 @@
     <div class="card-head"><span class="badge">6</span><h2>Zwischendurch testen</h2></div>
     <div class="col-text">
       <p>Klicke auf die <span class="green-flag-ref">grüne Flagge ⚑</span>, um deinen bisherigen Code zu testen.</p>
-      <p>Die Katze sollte sich jetzt bewegen, wenn du die Pfeiltasten drückst. Aber Achtung:
+      <p>Die Katze sollte jetzt deinem Finger folgen, solange du die Bühne berührst. Aber Achtung:
       noch kann sie einfach <b>durch die Wände</b> gehen!</p>
     </div>
   </section>

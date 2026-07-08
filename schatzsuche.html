@@ -252,7 +252,7 @@
   <div class="top-row">
     <div class="ziel">
       <h3>🎯 Darum geht es</h3>
-      <p>Steuere die Katze mit den Pfeiltasten durch ein unterirdisches Labyrinth und finde
+      <p>Steuere die Katze mit dem Finger durch ein unterirdisches Labyrinth und finde
       das versteckte Gold. Berührst du eine Wand (dunkelbraun), wirst du zurückgeworfen.
       Erreichst du das Gold (gelb), erklingt eine Melodie und die Stoppuhr zeigt, wie
       schnell du warst. Das Spiel funktioniert wie das Irrgarten-Spiel, hat aber noch
@@ -287,7 +287,7 @@
         <p>Damit die Katze gut durch die schmalen Gänge des Labyrinths passt, machst du
         sie kleiner.</p>
         <p>Klicke rechts über der Bühne in das Feld <b>Größe</b>. Ändere den Wert von
-        <b>100</b> auf <b>40</b> und drücke die <b>Eingabetaste</b>.</p>
+        <b>100</b> auf <b>40</b> und tippe danach auf eine freie Stelle neben dem Feld.</p>
       </div>
     </div>
   </section>
@@ -333,41 +333,37 @@
 
   <!-- Schritt 4 -->
   <section class="card">
-    <div class="card-head"><span class="badge">4</span><h2>Die Katze mit den Pfeiltasten steuern</h2></div>
+    <div class="card-head"><span class="badge">4</span><h2>Die Katze mit dem Finger steuern</h2></div>
     <div class="col-text" style="margin-bottom:11px;">
       <p>Klicke im Figuren-Bereich auf die <b>Katze</b> und dann oben auf den Reiter
-      <b>Skripte</b>. Baue diese <b>vier</b> kleinen Skripte. Jede Pfeiltaste dreht die
-      Katze in eine Richtung und lässt sie 10 Schritte laufen.</p>
+      <b>Skripte</b>. Baue dieses Skript. Es lässt die Katze immer dorthin laufen,
+      wo du die Bühne mit dem Finger berührst.</p>
     </div>
     <div style="display:flex; flex-wrap:wrap; gap:14px;">
 
       <div class="script" style="min-width:200px;">
-        <div class="blk blk-events blk-hat">wenn Taste <span class="dropdown">Pfeil nach oben ▾</span> gedrückt</div>
-        <div class="blk blk-motion">setze Richtung auf <span class="dropdown">0 ▾</span></div>
-        <div class="blk blk-motion">gehe <span class="numfield">10</span> er-Schritt</div>
-      </div>
-
-      <div class="script" style="min-width:200px;">
-        <div class="blk blk-events blk-hat">wenn Taste <span class="dropdown">Pfeil nach unten ▾</span> gedrückt</div>
-        <div class="blk blk-motion">setze Richtung auf <span class="dropdown">180 ▾</span></div>
-        <div class="blk blk-motion">gehe <span class="numfield">10</span> er-Schritt</div>
-      </div>
-
-      <div class="script" style="min-width:200px;">
-        <div class="blk blk-events blk-hat">wenn Taste <span class="dropdown">Pfeil nach links ▾</span> gedrückt</div>
-        <div class="blk blk-motion">setze Richtung auf <span class="dropdown">-90 ▾</span></div>
-        <div class="blk blk-motion">gehe <span class="numfield">10</span> er-Schritt</div>
-      </div>
-
-      <div class="script" style="min-width:200px;">
-        <div class="blk blk-events blk-hat">wenn Taste <span class="dropdown">Pfeil nach rechts ▾</span> gedrückt</div>
-        <div class="blk blk-motion">setze Richtung auf <span class="dropdown">90 ▾</span></div>
-        <div class="blk blk-motion">gehe <span class="numfield">10</span> er-Schritt</div>
+        <div class="blk blk-events blk-hat">wenn <span class="flag">⚑</span> angeklickt</div>
+        <div class="blk-c cat-control">
+          <div class="c-head">wiederhole fortlaufend</div>
+          <div class="c-body">
+            <div class="blk-c cat-control">
+              <div class="c-head">falls <span class="bool">Maustaste gedrückt?</span> , dann</div>
+              <div class="c-body">
+                <div class="blk blk-motion">drehe dich zu <span class="dropdown">Mauszeiger ▾</span></div>
+                <div class="blk blk-motion">gehe <span class="numfield">4</span> er-Schritt</div>
+              </div>
+              <div class="c-foot"></div>
+            </div>
+          </div>
+          <div class="c-foot"></div>
+        </div>
       </div>
 
     </div>
-    <p class="note" style="margin-top:11px;"><b>So merkst du dir die Zahlen:</b> 0 = nach
-    oben, 90 = nach rechts, 180 = nach unten, -90 = nach links. Das ist wie ein Kompass.</p>
+    <p class="note" style="margin-top:11px;"><b>So steuerst du:</b> Auf dem iPad ist dein
+    <b>Finger</b> der Mauszeiger, und <b>Maustaste gedrückt?</b> (Gruppe <b>Fühlen</b>) ist wahr,
+    solange dein Finger die Bühne berührt. Am PC hältst du die <b>linke Maustaste</b> gedrückt.
+    Tipp: Bleib mit dem Finger immer ein Stück <b>vor</b> der Katze.</p>
   </section>
 
   <!-- Extra-Karte: Musik-Erweiterung -->
@@ -453,11 +449,11 @@
     <div class="card-head"><span class="badge">6</span><h2>Spiel testen</h2></div>
     <div class="col-text">
       <p>Klicke auf die <span class="green-flag-ref">grüne Flagge ⚑</span> und steuere die
-      Katze mit den Pfeiltasten zum Gold. Oben erscheint dann deine Zeit.</p>
+      Katze mit dem Finger zum Gold. Oben erscheint dann deine Zeit.</p>
       <p>Die <b>Startposition</b> der Katze legst du im Block <b>gehe zu x: … y: …</b> fest.
       Passt der Startpunkt nicht zu deinem Labyrinth, ändere die beiden Zahlen so lange, bis
       die Katze am Tunneleingang steht.</p>
-      <p class="note"><b>Tipp:</b> Ziehe die Katze mit der Maus an die gewünschte Startstelle.
+      <p class="note"><b>Tipp:</b> Ziehe die Katze mit dem Finger (oder der Maus) an die gewünschte Startstelle.
       Die passenden x- und y-Zahlen kannst du dann oben rechts über der Bühne ablesen und in
       den Block eintragen.</p>
     </div>

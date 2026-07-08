@@ -253,8 +253,8 @@
     <div class="ziel">
       <h3>🎯 Darum geht es</h3>
       <p>Bring die Katze heil über die viel befahrene Straße bis zum Gras auf der anderen
-      Seite. Die Katze läuft von selbst vorwärts, mit den <b>Pfeiltasten</b> bestimmst du
-      nur ihre Richtung. Die Autos fahren automatisch hin und her und prallen an den Rändern
+      Seite. Die Katze läuft von selbst vorwärts, mit dem <b>Finger</b> bestimmst du
+      nur ihre Richtung: Sie dreht sich dorthin, wo du die Bühne berührst. Die Autos fahren automatisch hin und her und prallen an den Rändern
       ab. Berührt dich ein Auto, macht die Katze "Miau" und bleibt stehen. Schaffst du es bis
       zum grünen Gras, lobt sie dich mit "Gut gemacht!".</p>
     </div>
@@ -309,40 +309,39 @@
 
   <!-- Schritt 3 -->
   <section class="card">
-    <div class="card-head"><span class="badge">3</span><h2>Die Katze mit den Pfeiltasten lenken</h2></div>
+    <div class="card-head"><span class="badge">3</span><h2>Die Katze mit dem Finger lenken</h2></div>
     <div class="col-text" style="margin-bottom:11px;">
       <p>Klicke zuerst im Figuren-Bereich auf die <b>Katze</b> und dann auf den Reiter
-      <b>Skripte</b>. Baue diese <b>vier</b> Skripte. Denke daran: Du brauchst den Code für
-      alle vier Richtungen.</p>
-      <p class="note"><b>Warum nur "setze Richtung"?</b> Diese Skripte drehen die Katze nur.
-      Vorwärts läuft sie später ganz von selbst (Schritt 6). Mit den Pfeiltasten lenkst du
+      <b>Skripte</b>. Baue dieses Skript.</p>
+      <p class="note"><b>Warum nur "drehe dich zu"?</b> Dieses Skript dreht die Katze nur.
+      Vorwärts läuft sie später ganz von selbst (Schritt 6). Mit dem Finger lenkst du
       also nur ihre Richtung.</p>
     </div>
     <div style="display:flex; flex-wrap:wrap; gap:14px;">
 
       <div class="script" style="min-width:205px;">
-        <div class="blk blk-events blk-hat">wenn Taste <span class="dropdown">Pfeil nach oben ▾</span> gedrückt</div>
-        <div class="blk blk-motion">setze Richtung auf <span class="dropdown">0 ▾</span></div>
-      </div>
-
-      <div class="script" style="min-width:205px;">
-        <div class="blk blk-events blk-hat">wenn Taste <span class="dropdown">Pfeil nach unten ▾</span> gedrückt</div>
-        <div class="blk blk-motion">setze Richtung auf <span class="dropdown">180 ▾</span></div>
-      </div>
-
-      <div class="script" style="min-width:205px;">
-        <div class="blk blk-events blk-hat">wenn Taste <span class="dropdown">Pfeil nach links ▾</span> gedrückt</div>
-        <div class="blk blk-motion">setze Richtung auf <span class="dropdown">-90 ▾</span></div>
-      </div>
-
-      <div class="script" style="min-width:205px;">
-        <div class="blk blk-events blk-hat">wenn Taste <span class="dropdown">Pfeil nach rechts ▾</span> gedrückt</div>
-        <div class="blk blk-motion">setze Richtung auf <span class="dropdown">90 ▾</span></div>
+        <div class="blk blk-events blk-hat">wenn <span class="flag">⚑</span> angeklickt</div>
+        <div class="blk-c cat-control">
+          <div class="c-head">wiederhole fortlaufend</div>
+          <div class="c-body">
+            <div class="blk-c cat-control">
+              <div class="c-head">falls <span class="bool">Maustaste gedrückt?</span> , dann</div>
+              <div class="c-body">
+                <div class="blk blk-motion">drehe dich zu <span class="dropdown">Mauszeiger ▾</span></div>
+              </div>
+              <div class="c-foot"></div>
+            </div>
+          </div>
+          <div class="c-foot"></div>
+        </div>
       </div>
 
     </div>
-    <p class="note" style="margin-top:11px;"><b>Kompass-Zahlen:</b> 0 = nach oben, 90 = nach
-    rechts, 180 = nach unten, -90 = nach links.</p>
+    <p class="note" style="margin-top:11px;"><b>So steuerst du:</b> Auf dem iPad ist dein
+    <b>Finger</b> der Mauszeiger. Tippe auf die Stelle der Bühne, in deren Richtung die Katze
+    laufen soll. <b>Maustaste gedrückt?</b> findest du in der Gruppe <b>Fühlen</b>,
+    <b>drehe dich zu</b> in der Gruppe <b>Bewegung</b>. Am PC klickst und hältst du stattdessen
+    die linke Maustaste.</p>
   </section>
 
 </div><!-- /Seite 1 -->
@@ -491,7 +490,8 @@
       </div>
       <div class="col-text">
         <p>Ein Auto ist zu wenig Verkehr! Mach noch ein zweites.</p>
-        <p><b>Rechtsklick</b> auf das Auto im Figuren-Bereich → <b>Duplizieren</b>. Das neue
+        <p>Halte das Auto im Figuren-Bereich <b>lange gedrückt</b> (am PC: Rechtsklick) und
+        wähle <b>Duplizieren</b>. Das neue
         Auto hat den Code schon dabei. Ziehe es auf die <b>andere Straßenseite</b>, damit von
         beiden Seiten Autos kommen.</p>
         <p class="note"><b>Teste nun mit der <span class="green-flag-ref">grünen Flagge ⚑</span>!</b>
