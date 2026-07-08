@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Heil über die Straße: Scratch-Anleitung</title>
+<style>
+  /* ============================================================
+     SCRATCH-ANLEITUNG: moderne Seite (A4-Druck + iPad)
+     Stil "Clean Cards". Druck: Browser -> Cmd/Strg+P -> PDF.
+     Im Druckdialog "Kopf- und Fußzeilen" ausschalten.
+     ============================================================ */
+
+  @page { size: A4; margin: 12mm 13mm; }
+  * { box-sizing: border-box; }
+
+  :root {
+    /* Scratch-3-Kategoriefarben */
+    --c-events:  #f5b400;  /* Ereignisse  (gelb-gold) */
+    --c-control: #ffab19;  /* Steuerung   (orange-gold)*/
+    --c-motion:  #4c97ff;  /* Bewegung    (blau)      */
+    --c-looks:   #9966ff;  /* Aussehen    (lila)      */
+    --c-sensing: #5cb1d6;  /* Fühlen      (hellblau)  */
+    --c-sound:     #cf63cf; /* Klang      (magenta)   */
+    --c-operators: #59c059; /* Operatoren (grün)      */
+    --c-variables: #ff8c1a; /* Variablen  (orange-rot)*/
+    --c-pen:       #0fbd8c; /* Stift      (türkis)    */
+    --ink: #1f2430;        /* Haupttext  */
+    --muted: #5b6472;      /* Nebentext  */
+    --line: #e3e7ee;       /* Trennlinien */
+    --accent: #e8482b;     /* Akzentfarbe (Marke) */
+  }
+
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: "Helvetica Neue", "Segoe UI", Arial, sans-serif;
+    color: var(--ink);
+    background: #eef1f6;            /* nur Bildschirm-Vorschau */
+    font-size: 10.5pt;
+    line-height: 1.4;
+    -webkit-print-color-adjust: exact;   /* Farben mitdrucken */
+    print-color-adjust: exact;
+  }
+
+  /* Eine "Seite" als weißes Blatt. Bildschirm: responsiv (iPad), Druck: A4. */
+  .sheet {
+    width: 100%;
+    max-width: 210mm;
+    margin: 8mm auto;
+    padding: 14mm 13mm;
+    background: #fff;
+    box-shadow: 0 4px 22px rgba(20,30,60,.13);
+  }
+  @media screen and (max-width: 520px) {  /* enge Tablets/Handys: weniger Rand */
+    .sheet { padding: 7mm 6mm; }
+  }
+
+  /* ---------- Kopf ---------- */
+  .kopf {
+    display: flex; align-items: center; gap: 14px;
+    border-bottom: 3px solid var(--accent);
+    padding-bottom: 9px; margin-bottom: 14px;
+  }
+  .kopf .apple { font-size: 30pt; line-height: 1; }
+  .kopf h1 {
+    font-size: 25pt; margin: 0; letter-spacing: .5px;
+    font-weight: 800; color: var(--ink);
+  }
+  .kopf .sub { font-size: 11pt; color: var(--muted); margin: 2px 0 0; font-weight: 600; }
+  .kopf .pill {
+    margin-left: auto; font-size: 8.5pt; font-weight: 700; color: #fff;
+    background: var(--accent); padding: 4px 11px; border-radius: 999px; white-space: nowrap;
+  }
+
+  /* ---------- Start-Leiste: QR-Code + Scratch-Button ---------- */
+  .startbar {
+    display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+    background: #f7f9fc; border: 1px solid var(--line); border-radius: 12px;
+    padding: 11px 14px; margin-bottom: 14px;
+  }
+  .startbar .qr {
+    flex: none; width: 92px; height: 92px;
+    background: #fff; border-radius: 8px; padding: 4px;
+    box-shadow: inset 0 0 0 1px var(--line);
+  }
+  .startbar .qr svg, .startbar .qr img { width: 100%; height: 100%; display: block; }
+  .startbar .qr-text { flex: 1; min-width: 150px; }
+  .startbar .qr-text b { font-size: 10.5pt; }
+  .startbar .qr-text p { margin: 3px 0 0; font-size: 9pt; color: var(--muted); }
+  .scratch-btn {
+    flex: none; display: inline-flex; align-items: center; gap: 8px; min-height: 44px;
+    background: #f78c1b; color: #fff; text-decoration: none; font-weight: 800;
+    font-size: 11pt; padding: 12px 18px; border-radius: 10px;
+  }
+  .scratch-btn .play { font-size: 12pt; }
+
+  /* ---------- Spielziel + Legende nebeneinander ---------- */
+  .top-row { display: grid; grid-template-columns: 1.55fr 1fr; gap: 12px; margin-bottom: 14px; }
+
+  .ziel {
+    background: #fff7f5; border: 1px solid #f6d2c8; border-left: 5px solid var(--accent);
+    border-radius: 10px; padding: 10px 13px;
+  }
+  .ziel h3 { margin: 0 0 4px; font-size: 11pt; color: var(--accent); }
+  .ziel p { margin: 0; font-size: 9.7pt; color: #3c4250; }
+
+  .legende {
+    background: #f7f9fc; border: 1px solid var(--line);
+    border-radius: 10px; padding: 10px 12px;
+  }
+  .legende h3 { margin: 0 0 6px; font-size: 9.5pt; color: var(--muted); text-transform: uppercase; letter-spacing: .6px; }
+  .legende ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+  .legende li { display: flex; align-items: center; gap: 7px; font-size: 9pt; }
+  .legende .swatch { width: 14px; height: 14px; border-radius: 4px; flex: none; }
+
+  /* ---------- Schritt-Karten ---------- */
+  .card {
+    border: 1px solid var(--line); border-radius: 12px;
+    padding: 12px 14px 13px; margin-bottom: 12px;
+    background: #fff; break-inside: avoid;
+  }
+  .card-head { display: flex; align-items: center; gap: 10px; margin-bottom: 9px; }
+  .badge {
+    flex: none; width: 30px; height: 30px; border-radius: 9px;
+    background: var(--ink); color: #fff; font-weight: 800; font-size: 14pt;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .card-head h2 { margin: 0; font-size: 13pt; font-weight: 750; }
+
+  .two-col { display: grid; grid-template-columns: auto 1fr; gap: 16px; align-items: start; }
+  .col-text p { margin: 0 0 7px; font-size: 9.8pt; }
+  .col-text p:last-child { margin-bottom: 0; }
+  .note {
+    font-size: 8.8pt; color: var(--muted); background: #f7f9fc;
+    border-radius: 7px; padding: 6px 9px; margin-top: 3px;
+  }
+  .note b { color: #3c4250; }
+
+  /* ============ SCRATCH-BLÖCKE (selbst gebaut) ============ */
+  .script { display: inline-block; min-width: 215px; }
+
+  .blk {
+    position: relative; display: block;
+    padding: 7px 11px; margin-bottom: 2px;
+    border-radius: 5px; font-size: 9.3pt; font-weight: 700;
+    line-height: 1.25; color: #fff;
+  }
+  /* Kategoriefarben + Kontrast: warme Töne -> dunkler Text */
+  .blk-events  { background: var(--c-events);  color: #2c2200; }
+  .blk-control { background: var(--c-control); color: #3a2200; }
+  .blk-motion  { background: var(--c-motion);  color: #fff; }
+  .blk-looks   { background: var(--c-looks);   color: #fff; }
+  .blk-sound     { background: var(--c-sound);     color: #fff; }
+  .blk-operators { background: var(--c-operators); color: #fff; }
+  .blk-variables { background: var(--c-variables); color: #fff; }
+  .blk-pen       { background: var(--c-pen);       color: #fff; }
+
+  /* Hut-Block: oben abgerundete Kuppe */
+  .blk-hat { border-radius: 13px 13px 5px 5px; padding-top: 9px; }
+
+  /* C-Block (wiederhole / falls): umschließende Klammer */
+  .blk-c { padding: 0; margin-bottom: 2px; background: none; }
+  .c-head, .c-foot { border-radius: 5px; padding: 7px 11px; font-size: 9.3pt; font-weight: 700; }
+  .blk-c.cat-control > .c-head, .blk-c.cat-control > .c-foot { background: var(--c-control); color: #3a2200; }
+  .c-foot { height: 9px; padding: 0; border-radius: 0 0 6px 6px; }
+  .c-body {
+    margin-left: 11px; padding: 5px 0 5px 9px; margin-bottom: 2px;
+    border-left: 11px solid var(--c-control);   /* linker Arm der Klammer */
+  }
+  .c-head { border-radius: 5px 5px 5px 0; margin-bottom: 2px; }
+
+  /* Sechseckige Bedingung (Boolean) */
+  .bool {
+    display: inline-block; background: var(--c-sensing); color: #08384a;
+    padding: 3px 16px; margin: 0 2px; font-size: 8.8pt; font-weight: 700;
+    clip-path: polygon(10px 0, calc(100% - 10px) 0, 100% 50%, calc(100% - 10px) 100%, 10px 100%, 0 50%);
+  }
+
+  /* Eingabefelder im Block */
+  .dropdown, .numfield {
+    display: inline-block; background: rgba(255,255,255,.9); color: #1f2430;
+    border-radius: 999px; padding: 1px 9px; font-weight: 700; font-size: 8.8pt;
+    margin: 0 1px; box-shadow: inset 0 0 0 1px rgba(0,0,0,.12);
+  }
+  .numfield { padding: 1px 8px; }
+  .flag { color: #3aa45b; font-size: 11pt; vertical-align: -1px; }
+  /* Farbfeld im "wird Farbe ... berührt?"-Block */
+  .colorchip { display: inline-block; width: 13px; height: 13px; border-radius: 3px;
+    vertical-align: -2px; border: 1px solid rgba(0,0,0,.3); margin: 0 2px; }
+
+  /* "Figur wählen"-Button-Nachbau (Schritt 3) */
+  .figbtn {
+    flex: none; position: relative; width: 46px; height: 46px; border-radius: 50%;
+    background: var(--c-looks); display: flex; align-items: center; justify-content: center;
+    font-size: 20pt; color: #fff;
+  }
+  .figbtn .plus {
+    position: absolute; right: -4px; bottom: -4px; width: 20px; height: 20px; border-radius: 50%;
+    background: #4c97ff; color: #fff; font-size: 12pt; font-weight: 800;
+    display: flex; align-items: center; justify-content: center; border: 2px solid #fff;
+  }
+
+  /* Mini-Menü-Nachbau (Schritt 6: Duplizieren) */
+  .menu {
+    flex: none; width: 116px; border: 1px solid #d3d8e2; border-radius: 8px; overflow: hidden;
+    font-size: 8.6pt; background: #fff; box-shadow: 0 2px 8px rgba(20,30,60,.12);
+  }
+  .menu div { padding: 5px 9px; border-bottom: 1px solid #eef1f6; color: #3c4250; }
+  .menu div:last-child { border-bottom: none; }
+  .menu .hl { background: #4c97ff; color: #fff; font-weight: 700; }
+
+  .green-flag-ref { color: #3aa45b; font-weight: 800; }
+
+  /* ---------- Fuß ---------- */
+  .fuss {
+    margin-top: 12px; border-top: 1px solid var(--line); padding-top: 8px;
+    font-size: 8.5pt; color: var(--muted); display: flex; justify-content: space-between; gap: 10px;
+  }
+
+  /* ---------- Druck ---------- */
+  @media print {
+    body { background: #fff; }
+    .sheet { width: auto; margin: 0; padding: 0; box-shadow: none; }
+    .pagebreak { break-before: page; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============================ SEITE 1 ============================ -->
+<div class="sheet">
+
+  <header class="kopf">
+    <span class="apple">🚗</span>
+    <div>
+      <h1>HEIL ÜBER DIE STRASSE</h1>
+      <p class="sub">Weiche den Autos aus und komm heil über die Straße</p>
+    </div>
+    <span class="pill">Scratch · Spiel</span>
+  </header>
+
+  <!-- Start-Leiste: QR (per qr_einbetten.py gefuellt) + Scratch-Button. -->
+  <div class="startbar">
+    <div class="qr"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 41 41" class="segno"><path class="qrline" stroke="#1f2430" d="M2 2.5h7m3 0h1m2 0h2m2 0h2m1 0h2m2 0h3m1 0h1m1 0h7m-37 1h1m5 0h1m2 0h2m4 0h1m1 0h1m1 0h1m1 0h2m1 0h1m1 0h3m1 0h1m5 0h1m-37 1h1m1 0h3m1 0h1m1 0h2m2 0h2m2 0h1m1 0h5m1 0h1m1 0h2m2 0h1m1 0h3m1 0h1m-37 1h1m1 0h3m1 0h1m1 0h1m2 0h1m1 0h1m1 0h1m1 0h1m1 0h1m2 0h1m2 0h3m2 0h1m1 0h3m1 0h1m-37 1h1m1 0h3m1 0h1m1 0h1m1 0h2m1 0h4m1 0h2m3 0h1m4 0h1m1 0h1m1 0h3m1 0h1m-37 1h1m5 0h1m1 0h1m1 0h2m6 0h1m3 0h1m1 0h2m1 0h2m1 0h1m5 0h1m-37 1h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7m-29 1h3m2 0h1m1 0h1m3 0h1m3 0h2m1 0h3m-29 1h1m1 0h5m7 0h2m2 0h1m1 0h3m1 0h4m2 0h5m-32 1h1m3 0h1m1 0h5m1 0h3m3 0h1m2 0h3m1 0h1m2 0h1m2 0h2m-35 1h4m1 0h1m3 0h2m2 0h1m3 0h1m1 0h1m1 0h1m1 0h2m1 0h1m1 0h1m2 0h1m2 0h2m-37 1h1m6 0h1m1 0h5m2 0h1m4 0h2m3 0h1m2 0h2m5 0h1m-37 1h1m5 0h1m1 0h1m3 0h3m1 0h2m5 0h5m1 0h2m1 0h5m-37 1h3m4 0h1m1 0h3m2 0h1m1 0h6m1 0h1m4 0h1m2 0h1m-32 1h3m1 0h5m3 0h1m2 0h3m2 0h2m3 0h1m1 0h1m1 0h5m2 0h1m-37 1h1m1 0h2m1 0h1m1 0h2m2 0h3m1 0h1m1 0h2m1 0h3m3 0h7m3 0h1m-36 1h1m2 0h3m2 0h4m2 0h2m4 0h1m2 0h3m1 0h3m1 0h1m1 0h1m-35 1h6m2 0h1m5 0h2m1 0h2m1 0h1m1 0h2m4 0h1m2 0h1m1 0h1m1 0h1m-35 1h3m2 0h2m1 0h2m4 0h3m1 0h1m2 0h1m3 0h2m2 0h2m3 0h2m-36 1h2m1 0h2m1 0h1m3 0h5m3 0h3m4 0h5m5 0h1m-36 1h4m1 0h1m1 0h2m2 0h1m1 0h2m1 0h4m1 0h4m1 0h1m1 0h2m1 0h1m1 0h1m-32 1h3m3 0h1m2 0h3m1 0h1m1 0h3m2 0h1m2 0h1m1 0h2m3 0h1m-34 1h1m3 0h4m1 0h1m4 0h2m2 0h1m3 0h1m1 0h1m1 0h4m1 0h3m1 0h2m-36 1h3m1 0h1m1 0h3m1 0h2m1 0h1m11 0h1m1 0h1m2 0h2m2 0h1m-34 1h1m1 0h1m1 0h3m2 0h2m2 0h1m2 0h5m1 0h2m2 0h1m1 0h1m1 0h1m1 0h1m1 0h1m-37 1h1m1 0h2m1 0h1m2 0h5m2 0h3m3 0h1m1 0h1m4 0h1m2 0h1m-32 1h1m2 0h1m2 0h2m1 0h2m1 0h3m2 0h1m2 0h1m1 0h1m1 0h5m1 0h3m2 0h2m-37 1h1m1 0h1m2 0h1m1 0h1m5 0h1m2 0h1m4 0h2m3 0h1m4 0h1m-32 1h1m1 0h1m1 0h3m1 0h1m4 0h1m2 0h2m4 0h1m1 0h2m1 0h8m1 0h1m-29 1h2m2 0h1m1 0h1m1 0h2m1 0h3m1 0h1m1 0h4m3 0h2m-34 1h7m3 0h1m2 0h1m1 0h3m3 0h1m3 0h2m1 0h1m1 0h1m1 0h1m1 0h3m-37 1h1m5 0h1m1 0h1m1 0h2m1 0h2m2 0h2m1 0h3m5 0h1m3 0h2m2 0h1m-37 1h1m1 0h3m1 0h1m1 0h2m1 0h6m4 0h1m1 0h1m1 0h8m1 0h3m-37 1h1m1 0h3m1 0h1m1 0h2m1 0h1m1 0h3m2 0h1m1 0h1m1 0h2m1 0h1m2 0h3m1 0h1m3 0h1m-37 1h1m1 0h3m1 0h1m1 0h2m2 0h2m1 0h5m1 0h1m2 0h1m2 0h1m5 0h4m-37 1h1m5 0h1m2 0h2m1 0h4m3 0h4m1 0h1m3 0h2m2 0h1m3 0h1m-37 1h7m1 0h1m1 0h2m2 0h2m1 0h1m1 0h2m1 0h4m3 0h1m2 0h5"/></svg></div>
+    <div class="qr-text">
+      <b>📱 Aufs iPad holen</b>
+      <p>Scanne den QR-Code mit der iPad-Kamera, dann hast du diese Aufgabe direkt vor dir. Tippe dann auf den orangen Knopf, um Scratch zu öffnen.</p>
+    </div>
+    <a class="scratch-btn" href="https://scratch.mit.edu/projects/editor/" target="_blank" rel="noopener"><span class="play">▶</span> Scratch öffnen</a>
+  </div>
+
+  <div class="top-row">
+    <div class="ziel">
+      <h3>🎯 Darum geht es</h3>
+      <p>Bring die Katze heil über die viel befahrene Straße bis zum Gras auf der anderen
+      Seite. Die Katze läuft von selbst vorwärts, mit den <b>Pfeiltasten</b> bestimmst du
+      nur ihre Richtung. Die Autos fahren automatisch hin und her und prallen an den Rändern
+      ab. Berührt dich ein Auto, macht die Katze "Miau" und bleibt stehen. Schaffst du es bis
+      zum grünen Gras, lobt sie dich mit "Gut gemacht!".</p>
+    </div>
+    <div class="legende">
+      <h3>Block-Farben</h3>
+      <ul>
+        <li><span class="swatch" style="background:var(--c-events)"></span> Ereignisse</li>
+        <li><span class="swatch" style="background:var(--c-control)"></span> Steuerung</li>
+        <li><span class="swatch" style="background:var(--c-motion)"></span> Bewegung</li>
+        <li><span class="swatch" style="background:var(--c-looks)"></span> Aussehen</li>
+        <li><span class="swatch" style="background:var(--c-sensing)"></span> Fühlen</li>
+        <li><span class="swatch" style="background:var(--c-sound)"></span> Klang</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Schritt 1 -->
+  <section class="card">
+    <div class="card-head"><span class="badge">1</span><h2>Die Bühne zum Malen vorbereiten</h2></div>
+    <div class="two-col">
+      <div class="menu" style="width:150px;">
+        <div class="hl">Bühne wählen</div>
+        <div>Reiter "Bühnenbilder"</div>
+        <div>In Rastergrafik umwandeln</div>
+      </div>
+      <div class="col-text">
+        <p>Die Straße malst du direkt auf die Bühne (den Hintergrund).</p>
+        <p>Klicke neben dem Figuren-Bereich auf den Button <b>Bühne</b>. Klicke oben auf den
+        Reiter <b>Bühnenbilder</b>. Klicke dann unten auf <b>In Rastergrafik umwandeln</b>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Schritt 2 -->
+  <section class="card">
+    <div class="card-head"><span class="badge">2</span><h2>Die Straße malen</h2></div>
+    <div class="col-text" style="margin-bottom:10px;">
+      <p>Klicke auf das <b>Rechteck-Werkzeug</b> und male die Straße von unten nach oben aus
+      breiten Streifen: unten den <b>Gehweg</b> (Start), in der Mitte die <b>Straße</b> mit
+      weißen <b>Markierungen</b> und oben das <b>Gras</b> (Ziel).</p>
+    </div>
+    <div style="display:flex; gap:10px; flex-wrap:wrap; text-align:center; font-size:8.3pt; color:var(--muted); font-weight:700;">
+      <div><div style="width:118px; height:34px; background:#6b7075; border-radius:5px;"></div>Gehweg (dunkelgrau)</div>
+      <div><div style="width:118px; height:34px; background:#9aa0a6; border-radius:5px;"></div>Straße (hellgrau)</div>
+      <div><div style="width:118px; height:34px; background:#6cc24a; border-radius:5px;"></div>Gras (grün)</div>
+      <div><div style="width:118px; height:34px; background:#9aa0a6; border-radius:5px; display:flex; align-items:center; justify-content:center; gap:8px;"><span style="width:20px; height:5px; background:#fff; display:inline-block;"></span><span style="width:20px; height:5px; background:#fff; display:inline-block;"></span><span style="width:20px; height:5px; background:#fff; display:inline-block;"></span></div>Markierungen (weiß)</div>
+    </div>
+    <p class="note" style="margin-top:10px;"><b>Wichtiger Trick:</b> Male das <b>grüne Gras
+    nur oben</b> auf der Zielseite. Startet die Katze schon auf Grün, denkt das Spiel sofort,
+    sie sei am Ziel.</p>
+  </section>
+
+  <!-- Schritt 3 -->
+  <section class="card">
+    <div class="card-head"><span class="badge">3</span><h2>Die Katze mit den Pfeiltasten lenken</h2></div>
+    <div class="col-text" style="margin-bottom:11px;">
+      <p>Klicke zuerst im Figuren-Bereich auf die <b>Katze</b> und dann auf den Reiter
+      <b>Skripte</b>. Baue diese <b>vier</b> Skripte. Denke daran: Du brauchst den Code für
+      alle vier Richtungen.</p>
+      <p class="note"><b>Warum nur "setze Richtung"?</b> Diese Skripte drehen die Katze nur.
+      Vorwärts läuft sie später ganz von selbst (Schritt 6). Mit den Pfeiltasten lenkst du
+      also nur ihre Richtung.</p>
+    </div>
+    <div style="display:flex; flex-wrap:wrap; gap:14px;">
+
+      <div class="script" style="min-width:205px;">
+        <div class="blk blk-events blk-hat">wenn Taste <span class="dropdown">Pfeil nach oben ▾</span> gedrückt</div>
+        <div class="blk blk-motion">setze Richtung auf <span class="dropdown">0 ▾</span></div>
+      </div>
+
+      <div class="script" style="min-width:205px;">
+        <div class="blk blk-events blk-hat">wenn Taste <span class="dropdown">Pfeil nach unten ▾</span> gedrückt</div>
+        <div class="blk blk-motion">setze Richtung auf <span class="dropdown">180 ▾</span></div>
+      </div>
+
+      <div class="script" style="min-width:205px;">
+        <div class="blk blk-events blk-hat">wenn Taste <span class="dropdown">Pfeil nach links ▾</span> gedrückt</div>
+        <div class="blk blk-motion">setze Richtung auf <span class="dropdown">-90 ▾</span></div>
+      </div>
+
+      <div class="script" style="min-width:205px;">
+        <div class="blk blk-events blk-hat">wenn Taste <span class="dropdown">Pfeil nach rechts ▾</span> gedrückt</div>
+        <div class="blk blk-motion">setze Richtung auf <span class="dropdown">90 ▾</span></div>
+      </div>
+
+    </div>
+    <p class="note" style="margin-top:11px;"><b>Kompass-Zahlen:</b> 0 = nach oben, 90 = nach
+    rechts, 180 = nach unten, -90 = nach links.</p>
+  </section>
+
+</div><!-- /Seite 1 -->
+
+<div class="pagebreak"></div>
+
+<!-- ============================ SEITE 2 ============================ -->
+<div class="sheet">
+
+  <!-- Schritt 4 -->
+  <section class="card">
+    <div class="card-head"><span class="badge">4</span><h2>Ein Auto einfügen</h2></div>
+    <div class="two-col">
+      <div class="figbtn">🚗<span class="plus">+</span></div>
+      <div class="col-text">
+        <p>Jetzt brauchst du ein Auto, dem die Katze ausweichen muss.</p>
+        <p>Klicke unten rechts auf den Button <b>Figur wählen</b>. Scrolle durch die Figuren
+        und klicke auf <b>Convertible2</b> (ein grünes Auto).</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Schritt 5 -->
+  <section class="card">
+    <div class="card-head"><span class="badge">5</span><h2>Code für das Auto</h2></div>
+    <div class="two-col">
+      <div class="col-blocks">
+        <div class="script">
+          <div class="blk blk-events blk-hat">wenn <span class="flag">⚑</span> angeklickt</div>
+          <div class="blk-c cat-control">
+            <div class="c-head">wiederhole bis <span class="bool">wird <span class="dropdown">Figur1 ▾</span> berührt?</span></div>
+            <div class="c-body">
+              <div class="blk blk-motion">gehe <span class="numfield">5</span> er-Schritt</div>
+              <div class="blk blk-motion">pralle vom Rand ab</div>
+            </div>
+            <div class="c-foot"></div>
+          </div>
+          <div class="blk blk-events">sende <span class="dropdown">Treffer ▾</span> an alle</div>
+        </div>
+      </div>
+      <div class="col-text">
+        <p>Klicke im Figuren-Bereich auf das <b>Auto</b> und dann auf <b>Skripte</b>. Dieser
+        Code lässt das Auto fahren.</p>
+        <p><b>pralle vom Rand ab</b> (Gruppe <b>Bewegung</b>) sorgt dafür, dass das Auto am
+        Bühnenrand umdreht und zurückfährt.</p>
+        <p>Die Schleife läuft, bis das Auto die Katze berührt (<b>Figur1</b> ist die Katze).
+        Dann wird der Block <b>sende … an alle</b> (Gruppe <b>Ereignisse</b>) ausgeführt.</p>
+        <p class="note"><b>Nachricht anlegen:</b> Klicke im Block <b>sende … an alle</b> auf
+        das Ausklappmenü, wähle <b>neue Nachricht</b> und tippe <b>Treffer</b>.</p>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /Seite 2 -->
+
+<div class="pagebreak"></div>
+
+<!-- ============================ SEITE 3 ============================ -->
+<div class="sheet">
+
+  <!-- Schritt 6 -->
+  <section class="card">
+    <div class="card-head"><span class="badge">6</span><h2>Code für die Katze (zwei Gruppen)</h2></div>
+    <div class="col-text" style="margin-bottom:11px;">
+      <p>Klicke aufs <b>Katzen-Symbol</b> und baue diese <b>zwei getrennten</b> Code-Gruppen.</p>
+    </div>
+    <div class="two-col">
+      <div class="col-blocks" style="display:flex; flex-direction:column; gap:14px; align-items:flex-start;">
+        <div class="script">
+          <div class="blk blk-events blk-hat">wenn <span class="flag">⚑</span> angeklickt</div>
+          <div class="blk blk-looks">setze Größe auf <span class="numfield">50</span> %</div>
+          <div class="blk blk-motion">gehe zu x: <span class="numfield">0</span> y: <span class="numfield">-150</span></div>
+          <div class="blk blk-motion">setze Richtung auf <span class="dropdown">0 ▾</span></div>
+          <div class="blk-c cat-control">
+            <div class="c-head">wiederhole bis <span class="bool">wird Farbe <span class="colorchip" style="background:#6cc24a"></span> berührt?</span></div>
+            <div class="c-body">
+              <div class="blk blk-motion">gehe <span class="numfield">5</span> er-Schritt</div>
+              <div class="blk blk-looks">wechsle zum nächsten Kostüm</div>
+            </div>
+            <div class="c-foot"></div>
+          </div>
+          <div class="blk blk-looks">sage <span class="dropdown">Gut gemacht!</span></div>
+        </div>
+
+        <div class="script">
+          <div class="blk blk-events blk-hat">wenn ich <span class="dropdown">Treffer ▾</span> empfange</div>
+          <div class="blk blk-control">stoppe <span class="dropdown">andere Skripte der Figur ▾</span></div>
+          <div class="blk blk-sound">spiele Klang <span class="dropdown">Miau ▾</span> ganz</div>
+        </div>
+      </div>
+      <div class="col-text">
+        <p><b>Gruppe 1</b> startet mit der <span class="green-flag-ref">grünen Flagge ⚑</span>:
+        Die Katze wird auf 50 % verkleinert, an den Start unten
+        (<b>x 0, y -150</b>) gesetzt und <b>nach oben</b> gedreht (Richtung 0).</p>
+        <p>Die Schleife läuft, bis die Katze <b>Grün</b> (das Gras) berührt. Dabei geht sie
+        vorwärts und <b>wechselt das Kostüm</b>. So wirkt es, als würde sie laufen (eine
+        einfache Animation).</p>
+        <p>Am Ziel angekommen, sagt sie <b>Gut gemacht!</b>.</p>
+        <p><b>Gruppe 2</b> läuft nur, wenn die Katze die Nachricht <b>Treffer</b> bekommt: Sie
+        stoppt alle anderen Skripte (bleibt also stehen) und spielt den Klang <b>Miau</b>.</p>
+        <p class="note"><b>Farbe treffen:</b> Klicke im Block <b>wird Farbe … berührt?</b> auf
+        das Farbfeld und nimm mit der <b>Pipette</b> das Grün deines Grases auf.</p>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /Seite 3 -->
+
+<div class="pagebreak"></div>
+
+<!-- ============================ SEITE 4 ============================ -->
+<div class="sheet">
+
+  <!-- Schritt 7 -->
+  <section class="card">
+    <div class="card-head"><span class="badge">7</span><h2>Das Auto richtig herum fahren lassen</h2></div>
+    <div class="two-col">
+      <div class="col-blocks">
+        <div style="display:flex; align-items:center; gap:6px; border:1px solid var(--line); border-radius:10px; padding:8px 10px; background:#f7f9fc;">
+          <div style="display:flex; gap:4px;">
+            <span style="width:26px; height:26px; border-radius:6px; background:#fff; box-shadow:inset 0 0 0 1px var(--line); display:flex; align-items:center; justify-content:center; font-size:11pt;">↻</span>
+            <span style="width:26px; height:26px; border-radius:6px; background:#4c97ff; color:#fff; display:flex; align-items:center; justify-content:center; font-size:11pt; font-weight:800;">⇆</span>
+            <span style="width:26px; height:26px; border-radius:6px; background:#fff; box-shadow:inset 0 0 0 1px var(--line); display:flex; align-items:center; justify-content:center; font-size:11pt;">⊘</span>
+          </div>
+          <div style="font-size:8.6pt; color:var(--muted); font-weight:700; margin-left:6px;">Richtung <span class="numfield">0</span></div>
+        </div>
+        <div style="font-size:8.2pt; color:var(--muted); margin-top:5px; text-align:center;">wähle die mittlere Option (links-rechts)</div>
+      </div>
+      <div class="col-text">
+        <p>Weil das Auto beim Abprallen die Richtung umdreht, würde es sonst kopfüber fahren.</p>
+        <p>Klicke in der <b>Info-Box</b> der Figur auf das Feld <b>Richtung</b> und wähle die
+        Dreh-Art <b>links-rechts</b> (der Doppelpfeil ⇆). Jetzt spiegelt sich das Auto nur,
+        statt sich zu überschlagen.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Schritt 8 -->
+  <section class="card">
+    <div class="card-head"><span class="badge">8</span><h2>Ein zweites Auto dazu</h2></div>
+    <div class="two-col">
+      <div class="menu">
+        <div class="hl">Duplizieren</div>
+        <div>Exportieren</div>
+        <div>Löschen</div>
+      </div>
+      <div class="col-text">
+        <p>Ein Auto ist zu wenig Verkehr! Mach noch ein zweites.</p>
+        <p><b>Rechtsklick</b> auf das Auto im Figuren-Bereich → <b>Duplizieren</b>. Das neue
+        Auto hat den Code schon dabei. Ziehe es auf die <b>andere Straßenseite</b>, damit von
+        beiden Seiten Autos kommen.</p>
+        <p class="note"><b>Teste nun mit der <span class="green-flag-ref">grünen Flagge ⚑</span>!</b>
+        Schaffst du es heil bis ins Gras?</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="fuss">
+    <span>🚗 Heil über die Straße · ein Scratch-Spiel mit Nachrichten und Klang</span>
+    <span>Drucken: Browser → Cmd/Strg + P → "Kopf- und Fußzeilen" ausschalten</span>
+  </footer>
+
+</div><!-- /Seite 4 -->
+
+</body>
+</html>
