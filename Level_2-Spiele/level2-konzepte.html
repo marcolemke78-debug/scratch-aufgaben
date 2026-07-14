@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Level-2-Wissen: Variablen, Zufallszahlen und Animationen</title>
+<style>
+  /* ============================================================
+     SCRATCH-ANLEITUNG: moderne Seite (A4-Druck + iPad)
+     Stil "Clean Cards". Druck: Browser -> Cmd/Strg+P -> PDF.
+     Im Druckdialog "Kopf- und Fußzeilen" ausschalten.
+     ============================================================ */
+
+  @page { size: A4; margin: 12mm 13mm; }
+  * { box-sizing: border-box; }
+
+  :root {
+    /* Scratch-3-Kategoriefarben */
+    --c-events:  #f5b400;  /* Ereignisse  (gelb-gold) */
+    --c-control: #ffab19;  /* Steuerung   (orange-gold)*/
+    --c-motion:  #4c97ff;  /* Bewegung    (blau)      */
+    --c-looks:   #9966ff;  /* Aussehen    (lila)      */
+    --c-sensing: #5cb1d6;  /* Fühlen      (hellblau)  */
+    --c-sound:     #cf63cf; /* Klang      (magenta)   */
+    --c-operators: #59c059; /* Operatoren (grün)      */
+    --c-variables: #ff8c1a; /* Variablen  (orange-rot)*/
+    --c-pen:       #0fbd8c; /* Stift      (türkis)    */
+    --ink: #1f2430;        /* Haupttext  */
+    --muted: #5b6472;      /* Nebentext  */
+    --line: #e3e7ee;       /* Trennlinien */
+    --accent: #e8482b;     /* Akzentfarbe (Marke) */
+  }
+
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: "Helvetica Neue", "Segoe UI", Arial, sans-serif;
+    color: var(--ink);
+    background: #eef1f6;            /* nur Bildschirm-Vorschau */
+    font-size: 10.5pt;
+    line-height: 1.4;
+    -webkit-print-color-adjust: exact;   /* Farben mitdrucken */
+    print-color-adjust: exact;
+  }
+
+  /* Eine "Seite" als weißes Blatt. Bildschirm: responsiv (iPad), Druck: A4. */
+  .sheet {
+    width: 100%;
+    max-width: 210mm;
+    margin: 8mm auto;
+    padding: 14mm 13mm;
+    background: #fff;
+    box-shadow: 0 4px 22px rgba(20,30,60,.13);
+  }
+  @media screen and (max-width: 520px) {  /* enge Tablets/Handys: weniger Rand */
+    .sheet { padding: 7mm 6mm; }
+  }
+
+  /* ---------- Kopf ---------- */
+  .kopf {
+    display: flex; align-items: center; gap: 14px;
+    border-bottom: 3px solid var(--accent);
+    padding-bottom: 9px; margin-bottom: 14px;
+  }
+  .kopf .apple { font-size: 30pt; line-height: 1; }
+  .kopf h1 {
+    font-size: 25pt; margin: 0; letter-spacing: .5px;
+    font-weight: 800; color: var(--ink);
+  }
+  .kopf .sub { font-size: 11pt; color: var(--muted); margin: 2px 0 0; font-weight: 600; }
+  .kopf .pill {
+    margin-left: auto; font-size: 8.5pt; font-weight: 700; color: #fff;
+    background: var(--accent); padding: 4px 11px; border-radius: 999px; white-space: nowrap;
+  }
+
+  /* ---------- Start-Leiste: QR-Code + Scratch-Button ---------- */
+  .startbar {
+    display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+    background: #f7f9fc; border: 1px solid var(--line); border-radius: 12px;
+    padding: 11px 14px; margin-bottom: 14px;
+  }
+  .startbar .qr {
+    flex: none; width: 92px; height: 92px;
+    background: #fff; border-radius: 8px; padding: 4px;
+    box-shadow: inset 0 0 0 1px var(--line);
+  }
+  .startbar .qr svg, .startbar .qr img { width: 100%; height: 100%; display: block; }
+  .startbar .qr-text { flex: 1; min-width: 150px; }
+  .startbar .qr-text b { font-size: 10.5pt; }
+  .startbar .qr-text p { margin: 3px 0 0; font-size: 9pt; color: var(--muted); }
+  .scratch-btn {
+    flex: none; display: inline-flex; align-items: center; gap: 8px; min-height: 44px;
+    background: #f78c1b; color: #fff; text-decoration: none; font-weight: 800;
+    font-size: 11pt; padding: 12px 18px; border-radius: 10px;
+  }
+  .scratch-btn .play { font-size: 12pt; }
+
+  /* ---------- Spielziel + Legende nebeneinander ---------- */
+  .top-row { display: grid; grid-template-columns: 1.55fr 1fr; gap: 12px; margin-bottom: 14px; }
+
+  .ziel {
+    background: #fff7f5; border: 1px solid #f6d2c8; border-left: 5px solid var(--accent);
+    border-radius: 10px; padding: 10px 13px;
+  }
+  .ziel h3 { margin: 0 0 4px; font-size: 11pt; color: var(--accent); }
+  .ziel p { margin: 0; font-size: 9.7pt; color: #3c4250; }
+
+  .legende {
+    background: #f7f9fc; border: 1px solid var(--line);
+    border-radius: 10px; padding: 10px 12px;
+  }
+  .legende h3 { margin: 0 0 6px; font-size: 9.5pt; color: var(--muted); text-transform: uppercase; letter-spacing: .6px; }
+  .legende ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+  .legende li { display: flex; align-items: center; gap: 7px; font-size: 9pt; }
+  .legende .swatch { width: 14px; height: 14px; border-radius: 4px; flex: none; }
+
+  /* ---------- Schritt-Karten ---------- */
+  .card {
+    border: 1px solid var(--line); border-radius: 12px;
+    padding: 12px 14px 13px; margin-bottom: 12px;
+    background: #fff; break-inside: avoid;
+  }
+  .card-head { display: flex; align-items: center; gap: 10px; margin-bottom: 9px; }
+  .badge {
+    flex: none; width: 30px; height: 30px; border-radius: 9px;
+    background: var(--ink); color: #fff; font-weight: 800; font-size: 14pt;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .card-head h2 { margin: 0; font-size: 13pt; font-weight: 750; }
+
+  .two-col { display: grid; grid-template-columns: auto 1fr; gap: 16px; align-items: start; }
+  .col-text p { margin: 0 0 7px; font-size: 9.8pt; }
+  .col-text p:last-child { margin-bottom: 0; }
+  .note {
+    font-size: 8.8pt; color: var(--muted); background: #f7f9fc;
+    border-radius: 7px; padding: 6px 9px; margin-top: 3px;
+  }
+  .note b { color: #3c4250; }
+
+  /* ============ SCRATCH-BLÖCKE (selbst gebaut) ============ */
+  .script { display: inline-block; min-width: 215px; }
+
+  .blk {
+    position: relative; display: block;
+    padding: 7px 11px; margin-bottom: 2px;
+    border-radius: 5px; font-size: 9.3pt; font-weight: 700;
+    line-height: 1.25; color: #fff;
+  }
+  /* Kategoriefarben + Kontrast: warme Töne -> dunkler Text */
+  .blk-events  { background: var(--c-events);  color: #2c2200; }
+  .blk-control { background: var(--c-control); color: #3a2200; }
+  .blk-motion  { background: var(--c-motion);  color: #fff; }
+  .blk-looks   { background: var(--c-looks);   color: #fff; }
+  .blk-sound     { background: var(--c-sound);     color: #fff; }
+  .blk-operators { background: var(--c-operators); color: #fff; }
+  .blk-variables { background: var(--c-variables); color: #fff; }
+  .blk-pen       { background: var(--c-pen);       color: #fff; }
+
+  /* Hut-Block: oben abgerundete Kuppe */
+  .blk-hat { border-radius: 13px 13px 5px 5px; padding-top: 9px; }
+
+  /* C-Block (wiederhole / falls): umschließende Klammer */
+  .blk-c { padding: 0; margin-bottom: 2px; background: none; }
+  .c-head, .c-foot { border-radius: 5px; padding: 7px 11px; font-size: 9.3pt; font-weight: 700; }
+  .blk-c.cat-control > .c-head, .blk-c.cat-control > .c-foot { background: var(--c-control); color: #3a2200; }
+  .c-foot { height: 9px; padding: 0; border-radius: 0 0 6px 6px; }
+  .c-body {
+    margin-left: 11px; padding: 5px 0 5px 9px; margin-bottom: 2px;
+    border-left: 11px solid var(--c-control);   /* linker Arm der Klammer */
+  }
+  .c-head { border-radius: 5px 5px 5px 0; margin-bottom: 2px; }
+
+  /* Sechseckige Bedingung (Boolean) */
+  .bool {
+    display: inline-block; background: var(--c-sensing); color: #08384a;
+    padding: 3px 16px; margin: 0 2px; font-size: 8.8pt; font-weight: 700;
+    clip-path: polygon(10px 0, calc(100% - 10px) 0, 100% 50%, calc(100% - 10px) 100%, 10px 100%, 0 50%);
+  }
+
+  /* Eingabefelder im Block */
+  .dropdown, .numfield {
+    display: inline-block; background: rgba(255,255,255,.9); color: #1f2430;
+    border-radius: 999px; padding: 1px 9px; font-weight: 700; font-size: 8.8pt;
+    margin: 0 1px; box-shadow: inset 0 0 0 1px rgba(0,0,0,.12);
+  }
+  .numfield { padding: 1px 8px; }
+  .flag { color: #3aa45b; font-size: 11pt; vertical-align: -1px; }
+  /* Farbfeld im "wird Farbe ... berührt?"-Block */
+  .colorchip { display: inline-block; width: 13px; height: 13px; border-radius: 3px;
+    vertical-align: -2px; border: 1px solid rgba(0,0,0,.3); margin: 0 2px; }
+
+  /* "Figur wählen"-Button-Nachbau (Schritt 3) */
+  .figbtn {
+    flex: none; position: relative; width: 46px; height: 46px; border-radius: 50%;
+    background: var(--c-looks); display: flex; align-items: center; justify-content: center;
+    font-size: 20pt; color: #fff;
+  }
+  .figbtn .plus {
+    position: absolute; right: -4px; bottom: -4px; width: 20px; height: 20px; border-radius: 50%;
+    background: #4c97ff; color: #fff; font-size: 12pt; font-weight: 800;
+    display: flex; align-items: center; justify-content: center; border: 2px solid #fff;
+  }
+
+  /* Mini-Menü-Nachbau (Schritt 6: Duplizieren) */
+  .menu {
+    flex: none; width: 116px; border: 1px solid #d3d8e2; border-radius: 8px; overflow: hidden;
+    font-size: 8.6pt; background: #fff; box-shadow: 0 2px 8px rgba(20,30,60,.12);
+  }
+  .menu div { padding: 5px 9px; border-bottom: 1px solid #eef1f6; color: #3c4250; }
+  .menu div:last-child { border-bottom: none; }
+  .menu .hl { background: #4c97ff; color: #fff; font-weight: 700; }
+
+  .green-flag-ref { color: #3aa45b; font-weight: 800; }
+
+  /* ---------- Fuß ---------- */
+  .fuss {
+    margin-top: 12px; border-top: 1px solid var(--line); padding-top: 8px;
+    font-size: 8.5pt; color: var(--muted); display: flex; justify-content: space-between; gap: 10px;
+  }
+
+  /* ---------- Druck ---------- */
+  @media print {
+    body { background: #fff; }
+    .sheet { width: auto; margin: 0; padding: 0; box-shadow: none; }
+    .pagebreak { break-before: page; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ================================================================
+     BLOCK-BIBLIOTHEK  —  zum Kopieren beim Nachbauen der Skripte.
+     Alles in einen <div class="script"> ... </div> stapeln.
+     Kategorieklasse + Farbe siehe :root oben.
+
+     Hut-Block (Start, Ereignisse=gelb):
+       <div class="blk blk-events blk-hat">wenn <span class="flag">⚑</span> angeklickt</div>
+
+     Normaler Block (hier Bewegung=blau / Aussehen=lila / Klang / Operatoren / Variablen / Stift):
+       <div class="blk blk-motion">gehe <span class="numfield">10</span> er-Schritt</div>
+       <div class="blk blk-looks">zeige dich</div>
+
+     Eingaben IM Block:
+       Zahl:     <span class="numfield">4</span>
+       Dropdown: <span class="dropdown">Mauszeiger ▾</span>
+
+     Sechseckige Bedingung (Boolean, Fühlen=hellblau) — kommt IN einen falls/wiederhole-Kopf:
+       <span class="bool">wird <span class="dropdown">Figur1 ▾</span> berührt?</span>
+       Farbfeld-Variante: <span class="bool">wird Farbe <span class="colorchip" style="background:#3a9d4a"></span> berührt?</span>
+
+     sage-Block mit Text + Sekunden (Aussehen=lila):
+       <div class="blk blk-looks">sage <span class="dropdown">Hallo!</span> für <span class="numfield">2</span> Sek.</div>
+
+     Stopp-Block (Steuerung=orange, Stapelblock):
+       <div class="blk blk-control">stoppe <span class="dropdown">alles ▾</span></div>
+
+     Variablen-Block (Name als Dropdown, Wert als Zahl):
+       <div class="blk blk-variables">setze <span class="dropdown">Punkte ▾</span> auf <span class="numfield">0</span></div>
+       <div class="blk blk-variables">ändere <span class="dropdown">Punkte ▾</span> um <span class="numfield">1</span></div>
+
+     Klang-Block:
+       <div class="blk blk-sound">spiele Klang <span class="dropdown">Pop ▾</span> ganz</div>
+
+     C-Block (Klammer: wiederhole / falls … , dann — immer Steuerung=orange):
+       <div class="blk-c cat-control">
+         <div class="c-head">wiederhole fortlaufend</div>
+         <div class="c-body">
+            ... hier die inneren Blöcke einsetzen; weitere C-Bloecke einfach verschachteln ...
+         </div>
+         <div class="c-foot"></div>
+       </div>
+
+     Runder Reporter-Wert (z.B. Variable / x-Position): wie .numfield, nur in Blockfarbe.
+     ================================================================ -->
+
+<!-- ============================ SEITE 1 ============================ -->
+<div class="sheet">
+
+  <header class="kopf">
+    <span class="apple">🎓</span>
+    <div>
+      <h1>LEVEL-2-WISSEN</h1>
+      <p class="sub">Variablen · Zufallszahlen · Animationen</p>
+    </div>
+    <span class="pill">Scratch · Level 2</span>
+  </header>
+
+  <div class="startbar">
+    <div class="qr"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 45 45" class="segno"><path class="qrline" stroke="#1f2430" d="M2 2.5h7m1 0h1m1 0h3m2 0h1m1 0h2m3 0h1m2 0h2m4 0h1m2 0h7m-41 1h1m5 0h1m1 0h1m1 0h3m2 0h1m2 0h2m1 0h2m1 0h3m4 0h1m2 0h1m5 0h1m-41 1h1m1 0h3m1 0h1m1 0h1m2 0h1m1 0h1m2 0h1m5 0h2m1 0h3m2 0h3m1 0h1m1 0h3m1 0h1m-41 1h1m1 0h3m1 0h1m2 0h3m3 0h1m2 0h3m3 0h1m1 0h3m1 0h3m1 0h1m1 0h3m1 0h1m-41 1h1m1 0h3m1 0h1m1 0h1m2 0h1m1 0h1m2 0h2m1 0h1m1 0h1m3 0h1m2 0h1m1 0h2m2 0h1m1 0h3m1 0h1m-41 1h1m5 0h1m3 0h1m1 0h2m2 0h1m1 0h1m1 0h2m1 0h1m2 0h1m1 0h2m2 0h1m1 0h1m5 0h1m-41 1h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7m-32 1h3m6 0h3m1 0h1m2 0h3m3 0h2m-33 1h1m2 0h6m2 0h1m1 0h1m1 0h3m1 0h1m2 0h2m2 0h4m3 0h1m2 0h1m1 0h3m-41 1h1m1 0h3m4 0h2m1 0h1m1 0h2m3 0h1m3 0h2m1 0h2m1 0h3m3 0h2m2 0h1m-39 1h1m4 0h1m1 0h1m1 0h1m1 0h1m2 0h1m2 0h1m2 0h1m1 0h1m2 0h3m5 0h1m1 0h1m1 0h1m-39 1h1m1 0h2m3 0h1m4 0h2m3 0h2m1 0h1m2 0h1m2 0h2m1 0h1m1 0h2m3 0h2m1 0h2m-40 1h1m3 0h5m1 0h1m1 0h2m1 0h1m2 0h2m2 0h1m4 0h1m1 0h1m1 0h1m1 0h1m5 0h1m-41 1h3m2 0h1m5 0h1m3 0h5m2 0h1m1 0h2m2 0h1m1 0h1m3 0h3m1 0h1m-39 1h3m2 0h2m2 0h4m3 0h2m3 0h1m3 0h2m1 0h7m1 0h1m1 0h1m1 0h1m-41 1h5m2 0h1m1 0h1m5 0h1m3 0h1m4 0h1m2 0h1m5 0h1m3 0h3m-39 1h1m3 0h3m2 0h1m3 0h2m3 0h2m1 0h2m1 0h2m4 0h3m6 0h1m-40 1h1m2 0h1m2 0h1m1 0h1m3 0h2m1 0h1m1 0h3m1 0h1m2 0h1m1 0h1m1 0h1m1 0h1m1 0h1m2 0h3m-39 1h1m1 0h2m1 0h4m1 0h3m3 0h1m2 0h1m1 0h3m3 0h1m1 0h4m1 0h5m1 0h1m-41 1h1m1 0h3m5 0h2m1 0h1m1 0h5m2 0h1m3 0h1m1 0h1m1 0h1m1 0h2m2 0h1m1 0h1m1 0h1m-41 1h1m1 0h1m3 0h1m1 0h1m1 0h2m9 0h2m1 0h4m2 0h2m2 0h1m2 0h2m-39 1h1m4 0h1m4 0h2m2 0h3m1 0h2m1 0h1m1 0h2m1 0h2m2 0h2m4 0h1m1 0h1m-39 1h7m2 0h3m2 0h1m2 0h1m3 0h1m1 0h2m2 0h4m1 0h1m1 0h1m1 0h1m1 0h1m-34 1h1m1 0h2m3 0h1m4 0h1m1 0h2m1 0h3m1 0h4m1 0h2m1 0h1m1 0h2m1 0h2m-41 1h7m1 0h2m1 0h2m6 0h2m1 0h1m1 0h1m2 0h2m3 0h1m1 0h2m3 0h1m-40 1h1m2 0h2m2 0h2m1 0h4m1 0h2m1 0h1m4 0h1m1 0h5m2 0h2m1 0h2m1 0h1m1 0h1m-39 1h1m2 0h5m1 0h3m1 0h1m3 0h1m1 0h1m3 0h3m1 0h1m1 0h3m3 0h1m2 0h1m-38 1h3m4 0h1m1 0h1m2 0h1m7 0h2m1 0h3m2 0h1m2 0h5m-36 1h1m1 0h2m3 0h3m1 0h1m7 0h1m1 0h2m1 0h2m2 0h2m2 0h1m1 0h1m1 0h2m-41 1h1m2 0h2m4 0h1m1 0h3m2 0h1m1 0h1m2 0h3m1 0h1m2 0h2m1 0h3m2 0h1m1 0h1m-39 1h2m1 0h1m1 0h2m4 0h1m1 0h1m1 0h1m3 0h1m1 0h1m2 0h1m2 0h1m1 0h5m1 0h2m1 0h3m-41 1h3m5 0h1m2 0h3m1 0h1m2 0h3m2 0h1m1 0h1m4 0h2m2 0h3m1 0h1m1 0h1m-41 1h4m2 0h1m1 0h3m5 0h2m1 0h1m2 0h3m1 0h4m1 0h6m1 0h1m-31 1h3m1 0h1m1 0h1m4 0h3m1 0h1m2 0h2m1 0h4m3 0h3m-39 1h7m1 0h1m2 0h3m1 0h4m1 0h1m1 0h3m1 0h3m2 0h2m1 0h1m1 0h4m-40 1h1m5 0h1m1 0h3m3 0h2m1 0h1m1 0h1m1 0h3m2 0h1m1 0h1m1 0h1m1 0h1m3 0h2m1 0h1m-40 1h1m1 0h3m1 0h1m1 0h4m1 0h2m1 0h6m2 0h3m1 0h2m1 0h6m3 0h1m-41 1h1m1 0h3m1 0h1m1 0h5m1 0h1m1 0h1m4 0h1m1 0h1m3 0h2m1 0h1m4 0h1m2 0h2m-40 1h1m1 0h3m1 0h1m2 0h3m1 0h1m2 0h1m1 0h2m1 0h1m3 0h3m1 0h2m1 0h2m1 0h3m2 0h1m-41 1h1m5 0h1m2 0h1m3 0h2m3 0h2m3 0h2m2 0h2m1 0h1m3 0h1m1 0h3m1 0h1m-41 1h7m1 0h1m2 0h2m3 0h1m1 0h1m1 0h1m1 0h4m1 0h1m4 0h3m1 0h1"/></svg></div>
+    <div class="qr-text">
+      <b>📱 Aufs iPad holen</b>
+      <p>Scanne den QR-Code mit der iPad-Kamera, dann hast du dieses Blatt direkt vor dir. Tippe dann auf den orangen Knopf, um Scratch zu öffnen und alles auszuprobieren.</p>
+    </div>
+    <a class="scratch-btn" href="https://scratch.mit.edu/projects/editor/" target="_blank" rel="noopener"><span class="play">▶</span> Scratch öffnen</a>
+  </div>
+
+  <div class="top-row">
+    <div class="ziel">
+      <h3>🎯 Darum geht es</h3>
+      <p>Du hast Level 1 geschafft! Die Level-2-Spiele sind etwas kniffliger zu programmieren,
+      machen aber noch mehr Spaß. Wir bauen neue Funktionen ein: einen <b>Punktezähler</b>,
+      <b>Zufallszahlen</b> und <b>Animationen</b>. Dieses Blatt erklärt dir die drei neuen
+      Konzepte — du brauchst sie für alle Level-2-Spiele.</p>
+    </div>
+    <div class="legende">
+      <h3>Block-Farben</h3>
+      <ul>
+        <li><span class="swatch" style="background:var(--c-events)"></span> Ereignisse</li>
+        <li><span class="swatch" style="background:var(--c-variables)"></span> Variablen</li>
+        <li><span class="swatch" style="background:var(--c-looks)"></span> Aussehen</li>
+        <li><span class="swatch" style="background:var(--c-operators)"></span> Operatoren</li>
+        <li><span class="swatch" style="background:var(--c-motion)"></span> Bewegung</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Schritt 1 -->
+  <section class="card">
+    <div class="card-head"><span class="badge">1</span><h2>Variablen: der Punktestand</h2></div>
+    <div class="col-text">
+      <p>Computerprogramme arbeiten mit <b>"Variablen"</b>, um Daten oder Informationen zu speichern.
+      In Variablen speicherst du z.B. den Punktestand oder das Tempo, mit dem sich eine Figur bewegt.
+      Anders als normale Zahlen können Variablen ihren Wert <b>ändern</b>: Wenn du einen Punkt machst,
+      geht die Punkte-Variable um 1 hoch.</p>
+      <p class="note"><b>Merke:</b> Eine Variable gleicht einem Kasten, der etwas Wichtiges enthält.
+      Auf dem Kasten steht ein Name (z.B. "Punkte") — und was drin liegt, kann sich ändern.</p>
+      <p><b>So erstellst du die Variable:</b></p>
+      <p>1. Tippe links auf die Gruppe <b>Variablen</b>. &nbsp;
+      2. Tippe auf den Knopf <b>Neue Variable</b>. &nbsp;
+      3. Tippe <b>Punkte</b> ins Namensfeld. &nbsp;
+      4. Tippe auf <b>OK</b>.</p>
+    </div>
+  </section>
+
+  <!-- Schritt 2 -->
+  <section class="card">
+    <div class="card-head"><span class="badge">2</span><h2>Bei Spielbeginn: Punkte auf 0</h2></div>
+    <div class="two-col">
+      <div class="col-blocks">
+        <div class="script">
+          <div class="blk blk-events blk-hat">wenn <span class="flag">⚑</span> angeklickt</div>
+          <div class="blk blk-variables">setze <span class="dropdown">Punkte ▾</span> auf <span class="numfield">0</span></div>
+        </div>
+      </div>
+      <div class="col-text">
+        <p>Lege den Block <b>setze Punkte auf</b> an den <b>Start</b> deines Programms.
+        So beginnt der Zähler bei jedem Spielstart wieder bei 0.</p>
+        <p class="note">Sonst würden die Punkte vom letzten Spiel einfach weiterzählen!</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Schritt 3 -->
+  <section class="card">
+    <div class="card-head"><span class="badge">3</span><h2>Punktzahl erhöhen</h2></div>
+    <div class="two-col">
+      <div class="col-blocks">
+        <div class="script">
+          <div class="blk blk-variables">ändere <span class="dropdown">Punkte ▾</span> um <span class="numfield">1</span></div>
+        </div>
+      </div>
+      <div class="col-text">
+        <p>Der Block <b>ändere Punkte um 1</b> erhöht die Punkte-Variable jedes Mal um 1.</p>
+        <p class="note"><b>Wichtig:</b> Dieser Code muss immer genau dann laufen, wenn du im Spiel
+        einen Punkt gewinnst — z.B. wenn deine Figur etwas fängt.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Schritt 4 -->
+  <section class="card">
+    <div class="card-head"><span class="badge">4</span><h2>Bei Spielende: Punkte anzeigen</h2></div>
+    <div class="two-col">
+      <div class="col-blocks">
+        <div class="script">
+          <div class="blk blk-looks">sage <span class="dropdown" style="background:var(--c-variables); color:#fff; box-shadow:none;">Punkte</span></div>
+        </div>
+      </div>
+      <div class="col-text">
+        <p>Scratch zeigt Variablen normalerweise oben links auf der Bühne an. Mit dem Block
+        <b>sage</b> aus der Gruppe <b>Aussehen</b> kann die Figur die Punkte am Spielende
+        zusätzlich in einer <b>Sprechblase</b> zeigen.</p>
+        <p class="note"><b>Achtung:</b> Tippe nicht das Wort "Punkte" als Text ein! Ziehe den
+        <b>ovalen Punkte-Block</b> aus der Gruppe Variablen in die Öffnung des sage-Blocks.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Schritt 5 -->
+  <section class="card">
+    <div class="card-head"><span class="badge">5</span><h2>Noch schicker: Text + Punkte verbinden</h2></div>
+    <div class="two-col">
+      <div class="col-blocks">
+        <div class="script">
+          <div class="blk blk-looks">sage <span class="dropdown" style="background:var(--c-operators); color:#fff; box-shadow:none;">verbinde <span class="dropdown">Deine Punkte: </span> <span class="dropdown" style="background:var(--c-variables); color:#fff; box-shadow:none;">Punkte</span></span></div>
+        </div>
+      </div>
+      <div class="col-text">
+        <p>So sagt die Figur z.B. <b>"Deine Punkte: 4"</b> — Text und Zahl zusammen:</p>
+        <p>1. Ziehe <b>sage</b> aus der Gruppe <b>Aussehen</b>. &nbsp;
+        2. Ziehe einen <b>verbinde</b>-Block aus den <b>Operatoren</b> in den sage-Block. &nbsp;
+        3. Tippe <b>Deine Punkte: </b> links in den verbinde-Block. &nbsp;
+        4. Ziehe den ovalen <b>Punkte</b>-Block in die rechte Öffnung.</p>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /Seite 1 -->
+
+<div class="pagebreak"></div>
+
+<!-- ============================ SEITE 2 ============================ -->
+<div class="sheet">
+
+  <!-- Schritt 6 -->
+  <section class="card">
+    <div class="card-head"><span class="badge">6</span><h2>Zufallszahlen wählen</h2></div>
+    <div class="two-col">
+      <div class="col-blocks">
+        <div class="script">
+          <div class="blk blk-motion">gehe zu x: <span class="dropdown" style="background:var(--c-operators); color:#fff; box-shadow:none;">Zufallszahl von <span class="numfield">-200</span> bis <span class="numfield">200</span></span> y: <span class="numfield">0</span></div>
+        </div>
+      </div>
+      <div class="col-text">
+        <p>Wenn Spiele immer gleich ablaufen, wäre das ziemlich langweilig! Bei einem Brettspiel
+        entscheidet z.B. der <b>Würfel</b>, wie weit ein Spieler gehen darf — niemand kann
+        vorhersehen, welche Zahl zwischen 1 und 6 kommt. Beim Computerspiel lassen wir den
+        Computer genauso eine <b>Zufallszahl</b> wählen.</p>
+        <p>Im Block links: Die <b>erste Zahl (-200)</b> ist die niedrigste, die <b>zweite Zahl (200)</b>
+        die höchste Zahl, die gewählt werden kann.</p>
+        <p class="note"><b>Probiere es aus:</b> Baue den Code und tippe direkt auf den Block —
+        die Figur springt jedes Mal an eine andere Stelle. Teste verschiedene Werte!
+        Bei <b>Fang den Donut</b> lässt genau dieser Code die Donuts immer von einer neuen Stelle fallen.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Schritt 7 -->
+  <section class="card">
+    <div class="card-head"><span class="badge">7</span><h2>Animationen: zwei Kostüme</h2></div>
+    <div class="col-text">
+      <p>Für <b>Wolken jagen</b> soll es aussehen, als drehe sich der Propeller des Doppeldeckers.
+      Der Trick: Wir erstellen zwei <b>"Kostüme"</b> für das Flugzeug — eines mit Propeller
+      <b>oben</b> und eines mit Propeller <b>unten</b>. Scratch wechselt dann schnell zwischen
+      beiden hin und her. Mit dieser Technik kannst du eigene Animationen erstellen,
+      z.B. tanzende Blumen oder winkende Hunde!</p>
+    </div>
+  </section>
+
+  <!-- Schritt 8 -->
+  <section class="card">
+    <div class="card-head"><span class="badge">8</span><h2>Kostüm duplizieren und abändern</h2></div>
+    <div class="two-col">
+      <div class="menu">
+        <div class="hl">Duplizieren</div>
+        <div>Exportieren</div>
+        <div>Löschen</div>
+      </div>
+      <div class="col-text">
+        <p>1. <b>Male</b> zuerst die Figur, die du animieren willst (z.B. den Doppeldecker).</p>
+        <p>2. Wechsle oben links auf den Reiter <b>Kostüme</b>. Halte <b>Kostüm1</b> in der
+        Kostüm-Liste <b>lange gedrückt</b> (am PC: Rechtsklick) und tippe auf <b>Duplizieren</b>.
+        Die Figur hat nun zwei Kostüme.</p>
+        <p>3. Ändere das zweite Kostüm etwas ab: Tippe auf das <b>Auswahl-Werkzeug</b> (Pfeil)
+        und ziehe einen <b>Auswahlrahmen</b> um den Propeller.</p>
+        <p>4. Tippe oben im Malbereich auf <b>Vertikal spiegeln</b> und ziehe den Propeller
+        nach unten.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Schritt 9 -->
+  <section class="card">
+    <div class="card-head"><span class="badge">9</span><h2>Kostüme wechseln = Animation!</h2></div>
+    <div class="two-col">
+      <div class="col-blocks">
+        <div class="script">
+          <div class="blk blk-looks">wechsle zum nächsten Kostüm</div>
+        </div>
+      </div>
+      <div class="col-text">
+        <p>Tippe mehrmals auf den Block <b>wechsle zum nächsten Kostüm</b> (Gruppe <b>Aussehen</b>) —
+        Scratch springt zwischen den beiden Kostümen hin und her. Der Propeller "dreht" sich!</p>
+        <p class="note"><b>Tipp:</b> In einem Spiel steckst du diesen Block in eine
+        <b>wiederhole fortlaufend</b>-Schleife, dann läuft die Animation von ganz allein.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="fuss">
+    <span>🎓 Level-2-Wissen · Variablen, Zufallszahlen &amp; Animationen</span>
+    <span>Drucken: Browser → Cmd/Strg + P → "Kopf- und Fußzeilen" ausschalten</span>
+  </footer>
+
+</div><!-- /Seite 2 -->
+
+</body>
+</html>
